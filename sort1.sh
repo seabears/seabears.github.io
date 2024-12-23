@@ -26,7 +26,7 @@ for category_dir in "$posts_dir"/*/; do
                     }" "$md_file"
                     echo "Updated categories in $md_file to $category_name"
                 else
-                    : #echo "No update needed in $md_file, categories are already correct"
+                    echo "No update needed in $md_file, categories are already correct"
                 fi
             fi
         done

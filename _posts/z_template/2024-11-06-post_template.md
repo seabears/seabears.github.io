@@ -10,6 +10,7 @@ author: "seabears"      # 작성자
 
 categories: z_template
 - z_template
+- z_template
     - template  
     - temp1
     - temp2
