@@ -27,6 +27,8 @@ description: >-           #한 문장으로 나옴
   This is $post_title
   Write your description here.
 date: $current_date $current_time $timezone
+#lastmod : $current_date $current_time $timezone  #마지막 수정 시간
+
 author: "seabears"      # 작성자
 
 categories: # 카테고리
@@ -49,6 +51,7 @@ published: true        # true | false
 
 Write your content here.
 EOF
+#여기까지
 
 # 결과 출력
 echo "New post created: $post_file"

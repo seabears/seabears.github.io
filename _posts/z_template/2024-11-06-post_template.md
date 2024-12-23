@@ -8,7 +8,8 @@ date: 2024-11-08 17:39:00 +0900
 #lastmod : 2024-11-08 17:40:00  #마지막 수정 시간
 author: "seabears"      # 작성자
 
-categories: # 카테고리
+categories: z_template
+- z_template
     - template  
     - temp1
     - temp2
