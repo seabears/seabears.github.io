@@ -3,11 +3,7 @@ title: Writing a New Post
 author: cotes
 date: 2019-08-08 14:10:00 +0800
 categories: [Blogging, Tutorial]
-- start(no_use)
-- start(no_use)
-- start(no_use)
-- start(no_use)
-- start(no_use)
+
 tags: [writing]
 render_with_liquid: false
 published: false

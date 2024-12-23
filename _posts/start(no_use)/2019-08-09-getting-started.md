@@ -6,11 +6,8 @@ description: >-
 author: cotes
 date: 2019-08-09 20:55:00 +0800
 categories: [Blogging, Tutorial]
-- start(no_use)
-- start(no_use)
-- start(no_use)
-- start(no_use)
-- start(no_use)
+    - start(no_use)
+
 tags: [getting started]
 pin: false
 media_subpath: '/posts/20180809'

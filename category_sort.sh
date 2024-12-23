@@ -22,7 +22,7 @@ for category_dir in "$posts_dir"/*/; do
                     # sed를 사용하여 'categories: # 카테고리' 항목을 해당 카테고리로 변경하고, 그 다음 줄에 카테고리 이름 추가
                     sed -i "/^categories:/ {
                         n
-                        s/^/  - $category_name\n/
+                        s/^/    - $category_name\n/
                     }" "$md_file"
                     echo "Updated categories in $md_file to $category_name"
                 else
