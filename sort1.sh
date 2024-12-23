@@ -3,12 +3,21 @@
 # _posts 디렉토리 경로
 posts_dir="_posts"
 
+# 수정하지 않을 폴더 지정
+exclude_folders=("start(no_use)" "z_No_post" "z_template")
+
 # _posts 디렉토리 내의 모든 하위 디렉토리 순회 (카테고리 폴더)
 for category_dir in "$posts_dir"/*/; do
     # 폴더인지 확인
     if [ -d "$category_dir" ]; then
         # 카테고리 폴더 이름 추출
         category_name=$(basename "$category_dir")
+        
+        # 제외할 폴더인지 확인
+        if [[ " ${exclude_folders[@]} " =~ " ${category_name} " ]]; then
+            echo "Skipping folder: $category_name"
+            continue
+        fi
         
         # 카테고리 폴더 내의 모든 .md 파일 순회
         for md_file in "$category_dir"*.md; do
@@ -22,11 +31,11 @@ for category_dir in "$posts_dir"/*/; do
                     # sed를 사용하여 'categories: # 카테고리' 항목을 해당 카테고리로 변경하고, 그 다음 줄에 카테고리 이름 추가
                     sed -i "/^categories:/ {
                         n
-                        s/^/  - $category_name\n/
+                        s/^/    - $category_name\n/
                     }" "$md_file"
                     echo "Updated categories in $md_file to $category_name"
                 else
-                    echo "No update needed in $md_file, categories are already correct"
+                    : #echo "No update needed in $md_file, categories are already correct"
                 fi
             fi
         done
