@@ -47,9 +47,11 @@ pin: false              # true | false
 published: true        # true | false
 ---
 
-#### $post_title
+### $post_title
 
+### sub_title
 Write your content here.
+
 EOF
 #여기까지
 
