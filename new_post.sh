@@ -49,7 +49,7 @@ published: true        # true | false
 
 ### $post_title
 
-### sub_title
+#### sub_title
 Write your content here.
 
 EOF
