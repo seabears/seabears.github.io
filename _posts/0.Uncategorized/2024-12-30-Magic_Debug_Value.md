@@ -33,6 +33,8 @@ https://codevania.tistory.com/entry/Magic-debug-values
 |항목|내용|
 |---|---|
 |`0xcccccccc` | Stack에 할당, 초기화 x |
+|`0xdddddddd` | heap 할당을 free했을 때 |
 
 
 -858993460 = 0xFFFF`FFFF`CCCC`CCCC
+0xdddddddd = 221
