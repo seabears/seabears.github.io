@@ -47,9 +47,8 @@ pin: false              # true | false
 published: true        # true | false
 ---
 
-### $post_title
 
-#### sub_title
+### $post_title
 Write your content here.
 
 EOF
