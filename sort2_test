@@ -1,0 +1,21 @@
+# 변수 설정
+CXX := g++
+CXXFLAGS := -std=c++17
+TARGET := sort2
+SRC := sort2.cpp
+
+# 기본 빌드 규칙
+all: $(TARGET)
+
+$(TARGET): $(SRC)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+# 클린 규칙
+clean:
+	rm -f $(TARGET)
+
+# 디버그 빌드 규칙
+debug: CXXFLAGS += -g
+debug: clean all
+
+.PHONY: all clean debug
