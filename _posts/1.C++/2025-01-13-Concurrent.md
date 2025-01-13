@@ -87,7 +87,7 @@ int main() {
 }
 ```
 
-![cmd 출력](_posts/1.C++/Concurrent1.png)
+![cmd 출력](/_posts/1.C++/Concurrent1.png)
 
 ```cmd
 Thread 1 가 작업을 수행중입니다.0
