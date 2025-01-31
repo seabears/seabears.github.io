@@ -48,8 +48,8 @@ published: true        # true | false
 ---
 
 
-### $post_title
-Write your content here.
+## $post_title
+
 
 EOF
 #여기까지

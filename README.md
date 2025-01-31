@@ -1,7 +1,16 @@
+
 <!-- markdownlint-disable-next-line -->
 <div align="center">
 
   <!-- markdownlint-disable-next-line -->
+
+  # Empty Lab
+  Embedded SW
+
+
+
+
+  <!--
   # Chirpy Jekyll Theme
 
   A minimal, responsive, and feature-rich Jekyll theme for technical writing.
@@ -82,3 +91,4 @@ This project is published under [MIT License][license].
 [lib]: https://github.com/cotes2020/chirpy-static-assets
 [vscode]: https://code.visualstudio.com/
 [jetbrains]: https://www.jetbrains.com/?from=jekyll-theme-chirpy
+-->

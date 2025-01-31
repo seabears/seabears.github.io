@@ -1,5 +1,9 @@
 #!/bin/bash
 
+RED="\033[31m"
+BLUE="\033[34m"
+RESET="\033[0m"
+
 # _posts 디렉토리 경로
 posts_dir="_posts"
 
@@ -19,6 +23,9 @@ for category_dir in "$posts_dir"/*/; do
             continue
         fi
         
+        # .을 기준으로 나누고 뒤쪽 부분만 사용
+        category_name="${category_name#*.}"
+
         # 카테고리 폴더 내의 모든 .md 파일 순회
         for md_file in "$category_dir"*.md; do
             # md 파일 내 categories 항목을 찾고, 현재 카테고리 목록과 비교
@@ -33,7 +40,7 @@ for category_dir in "$posts_dir"/*/; do
                         n
                         s/^/    - $category_name\n/
                     }" "$md_file"
-                    echo "Updated categories in $md_file to $category_name"
+                    echo -e "Updated categories in $md_file to ${RED}$category_name${RESET}"
                 else
                     : #echo "No update needed in $md_file, categories are already correct"
                 fi
