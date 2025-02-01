@@ -1,6 +1,6 @@
 
 Node.js를 이용한 javascript 서버 코드
-```c
+```javascript
 const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');

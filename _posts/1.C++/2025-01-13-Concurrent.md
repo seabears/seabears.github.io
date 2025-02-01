@@ -1,8 +1,7 @@
 ---
 title: Concurrent
 description: >-           #한 문장으로 나옴
-  This is Concurrent
-  Write your description here.
+
 date: 2025-01-13 12:38:54 +0900
 lastmod : 2025-01-13 12:38:54 +0900  #마지막 수정 시간
 
