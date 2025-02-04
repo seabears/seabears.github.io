@@ -44,7 +44,7 @@ sitemap :
 #image: "url_to_image.jpg"   # 대표 이미지 (옵션)
 #permalink: /category1/first-post/
 pin: false              # true | false
-published: true        # true | false
+published: false        # true | false
 ---
 
 
