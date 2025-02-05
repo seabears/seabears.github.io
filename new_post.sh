@@ -24,8 +24,7 @@ cat << EOF > $post_file
 ---
 title: $post_title
 description: >-           #한 문장으로 나옴
-  This is $post_title
-  Write your description here.
+  
 date: $current_date $current_time $timezone
 lastmod : $current_date $current_time $timezone  #마지막 수정 시간
 
