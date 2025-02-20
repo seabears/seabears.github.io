@@ -20,7 +20,7 @@ sitemap :
 #image: "url_to_image.jpg"   # 대표 이미지 (옵션)
 #permalink: /category1/first-post/
 pin: false              # true | false
-published: false        # true | false
+published: true        # true | false
 ---
 
 
@@ -177,18 +177,12 @@ Register 직접 접근과 iLLD의 asm 코드는 같음
 
 
 ### 3. inline assembly
+
+`P10_OMR.U = 0x60006;`  
+
 ```c
     while(1)
     {
-        __asm__(
-                "movh.a      a15, #0xf004      \n\t"
-                "ld.w        d15, [a15] - 0x5000 \n\t"
-                "xor         d15, d15, #0x6  \n\t"
-                "st.w        [a15] - 0x5000, d15 \n\t"
-                :
-                :
-                : "a15", "d15"
-            );
         __asm__(
                 "mov         d0, #0x6  \n\t"
                 "addih       d0, d0, #0x6      \n\t"
