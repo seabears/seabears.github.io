@@ -1,8 +1,7 @@
 ---
 title: Magic_Debug_Value
 description: >-           #한 문장으로 나옴
-  This is Magic_Debug_Value
-  Write your description here.
+
 date: 2024-12-30 10:24:19 +0900
 lastmod : 2024-12-30 10:24:19 +0900  #마지막 수정 시간
 
@@ -30,10 +29,10 @@ https://blog.naver.com/zxwnstn/221543120620
 
 https://codevania.tistory.com/entry/Magic-debug-values
 
-|항목|내용|
-|---|---|
-|`0xcccccccc` | Stack에 할당, 초기화 x |
-|`0xdddddddd` | heap 할당을 free했을 때 |
+| 항목         | 내용                    |
+| ------------ | ----------------------- |
+| `0xcccccccc` | Stack에 할당, 초기화 x  |
+| `0xdddddddd` | heap 할당을 free했을 때 |
 
 
 -858993460 = 0xFFFF`FFFF`CCCC`CCCC
