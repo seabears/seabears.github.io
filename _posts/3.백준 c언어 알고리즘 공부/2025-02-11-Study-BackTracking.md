@@ -23,8 +23,6 @@ pin: false              # true | false
 published: true        # true | false
 ---
 
-
-## 🔍 백트래킹
 백트래킹은 "가능한 모든 해"를 탐색하는 과정에서, 불필요한 경로를 미리 차단하고, 유효하지 않은 경로는 되돌려서 다른 경로를 탐색하는 알고리즘  
 
 ### 📌 1. 1부터 N까지에서 골라  길이가 M인 모든 수를 출력
@@ -437,4 +435,144 @@ int main() {
 <br>
 
 ---
-### 📌 6.
+### 📌 6. N과 M(4)
+[백준 15652번](https://www.acmicpc.net/problem/15652)
+{% include code_open.html title="첫 코드 보기" %}
+```c
+#include<stdio.h>
+
+#define MAX_ANS 8
+
+int ans[MAX_ANS + 1] = { 0 };	//index 1부터 8 사용
+
+void solve(int N, int M, int step) {
+	if (step == M + 1) {
+		for (int i = 1;i <= M;i++) printf("%d ", ans[i]);
+		printf("\n");
+		return;
+	}
+	
+	for (int i = 1;i <= N;i++) {
+		if (i >= ans[step - 1]) {
+			ans[step] = i;
+			solve(N, M, step + 1);
+		}
+	}
+}
+int main() {
+	int N, M;
+	scanf("%d %d", &N, &M);
+
+	solve(N, M, 1);
+
+	return 0;
+}
+/*
+문제의 조건에 만족하는 수열 출력
+중복 수열 여러번 출력 금지
+공백으로 구분 수열
+사전순 증가하는 순서로 출력
+
+조건
+1. 1~N 자연수 중 M개 고른 수열
+2. 수 중복 가능
+3. 비내림차순
+
+#1)
+3 1
+
+1 2 3 중 1개를 고른 수열
+1
+2
+3
+
+*/
+```
+{% include code_close.html %}
+
+{% include code_open.html title="조금 개선 코드 보기" %}
+```c
+#include<stdio.h>
+
+#define MAX_ANS 8
+
+int ans[MAX_ANS + 1] = { 0 };	//index 1부터 8 사용
+
+void solve(int N, int M, int step, int cur_val) {
+	if (step == M + 1) {
+		for (int i = 1;i <= M;i++) printf("%d ", ans[i]);
+		printf("\n");
+		return;
+	}
+	
+	for (int i = cur_val;i <= N;i++) {  //현재 추가값 이상만 추가
+		ans[step] = i;
+		solve(N, M, step + 1, i);
+	}
+}
+int main() {
+	int N, M;
+	scanf("%d %d", &N, &M);
+
+	solve(N, M, 1, 1);  //step 1, cur_val 1부터 시작
+
+	return 0;
+}
+```
+{% include code_close.html %}
+
+### 📌 7. N과 M(5)
+[백준 15654번](https://www.acmicpc.net/problem/15654)
+{% include code_open.html title="코드 보기" %}
+```c
+#include<stdio.h>
+#include<stdlib.h>
+
+#define MAX_ANS 8
+
+int N, M;
+int inputArr[MAX_ANS] = {0};	//입력 배열
+int visited[MAX_ANS] = { 0 };	//입력의 방문 확인 배열
+int ans[MAX_ANS + 1] = { 0 };	//답 출력할 배열
+
+void solve(int step) {
+	if (step == M + 1) {
+		for (int i = 0;i < M;i++) {
+			printf("%d ", ans[i]);
+		}
+		printf("\n");
+		return;
+	}
+
+	for (int i = 0;i < N;i++) {
+		if (!visited[i]) {
+			visited[i] = 1;
+			ans[step - 1] = inputArr[i];
+			solve(step + 1, i);
+			visited[i] = 0;	//사용한건 다시 0으로 돌려놔야 다음번에 반영 안됨
+		}
+	}
+}
+int cmp(const void* a, const void* b) {
+	return *((int*)a) - *((int*)b);
+}
+
+int main() {
+
+	scanf("%d %d", &N, &M);
+
+	for (int i = 0;i < N;i++) {
+		scanf("%d", &inputArr[i]);
+	}
+	qsort(inputArr, N, sizeof(int), cmp);
+
+	solve(1);	//step 1 부터 시작
+	return 0;
+}
+/*
+N개의 자연수 중에서 M개를 고른 수열
+*/
+```
+{% include code_close.html %}
+
+###
