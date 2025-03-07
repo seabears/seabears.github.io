@@ -3063,4 +3063,286 @@ int main() {
 ```
 {% include code_close.html %}
 
-## 📌 28.
+## 📌 28. 열쇠 : 어려움 : 처음 푼 코드 비효율, 아직 개선 못함 TODO
+[백준 9328번](https://www.acmicpc.net/problem/9328)
+{% include code_open.html title="처음 내 코드 보기" %}
+```c
+#include<stdio.h>
+#include<string.h>
+#include<stdbool.h>
+
+#define MAP_MAX (100 * 10) //??????????? 10 왜 곱해야될까
+#define DOOR_MAX (100 * 100)
+
+enum MAP {
+    EMPTY = '.',
+    WALL = '*',
+    GOAL = '$',
+};
+
+typedef struct {
+    int x;
+    int y;
+}Pos;
+
+int h, w;
+char map[MAP_MAX][MAP_MAX];
+
+bool key[26] = { 0 };   //가지고 있는 키
+
+Pos entrance_stack[DOOR_MAX];   //가능한 입구 저장
+int entrance_top = 0;
+
+bool visited_goal[MAP_MAX][MAP_MAX];
+
+int beDoor(char ch) {
+    if (ch >= 'A' && ch <= 'Z') {
+        return 1;
+    }
+    else return 0;
+}
+int beKey(char ch) {
+    if (ch >= 'a' && ch <= 'z') {
+        return 1;
+    }
+    else return 0;
+}
+int beKeyforDoor(char door) {
+    return key[door - 'A'];
+}
+
+Pos queue[MAP_MAX * MAP_MAX];
+int front = 0, rear = 0;
+void enqueue(Pos new) {
+    queue[rear++] = new;
+}
+Pos dequeue() {
+    return queue[front++];
+}
+
+int dx[4] = { 0,0,1,-1 };
+int dy[4] = { 1,-1,0,0 };
+
+bool flag_found_key = 0;
+
+void bfs(Pos start) {
+    //init
+    front = 0, rear = 0;
+    char visited[MAP_MAX][MAP_MAX] = { 0 };
+
+    visited[start.x][start.y] = 1;
+    enqueue(start);
+
+    while (front < rear) {
+        Pos cur = dequeue();
+
+        //문서 발견
+        if (map[cur.x][cur.y] == GOAL) {
+            visited_goal[cur.x][cur.y] = 1;
+        }
+        //새로운 키 발견   //발견하지 않은
+        else if (beKey(map[cur.x][cur.y]) && !key[map[cur.x][cur.y] - 'a']) {
+            key[map[cur.x][cur.y] - 'a'] = 1;
+
+            //처음부터 다시 탐색 : visited 초기화 및 큐 초기화
+            memset(visited, 0, sizeof(visited));
+            front = 0, rear = 0;
+
+            flag_found_key = 1;
+        }
+        //문 발견
+        else if (beDoor(map[cur.x][cur.y])) {
+            //키 없으면 다음 턴
+            if (!beKeyforDoor(map[cur.x][cur.y])) continue;
+        }
+
+        //printf("%d %d\n", cur.x, cur.y);
+
+        for (int i = 0;i < 4;i++) {
+            Pos new = { cur.x + dx[i], cur.y + dy[i] };
+
+            if (new.x >= 0 && new.x < h && new.y >= 0 && new.y < w && map[new.x][new.y] != WALL) {
+                if (!visited[new.x][new.y]) {
+                    visited[new.x][new.y] = 1;
+                    enqueue(new);
+                }
+            }
+        }
+    }
+
+    return;
+}
+int main() {
+    int T = 0;
+    scanf("%d", &T);
+
+    while (T--) {
+        //init
+        entrance_top = 0;
+        memset(key, 0, sizeof(key));
+        memset(visited_goal, 0, sizeof(visited_goal));
+        flag_found_key = 0;
+        //
+
+        scanf("%d %d", &h, &w);
+
+        for (int i = 0;i < h;i++) {
+            scanf("%s", map[i]);
+
+            for (int j = 0;j < w;j++) {
+                bool beSide = (i == 0 || i == h - 1 || j == 0 || j == w - 1);
+                if (beSide && map[i][j] != WALL) {
+                    entrance_stack[entrance_top++] = (Pos){ i,j };
+                }
+            }
+        }
+
+        //key
+        char key_input[26];
+        scanf("%s", key_input);
+        if (key_input[0] != '0') {
+            for (int i = 0;key_input[i] != '\0';i++) {
+                //if(beKey(key_input[i]))
+                key[key_input[i] - 'a'] = 1;
+            }
+        }
+
+        for (int i = 0;i < entrance_top;i++) {
+
+            Pos start = entrance_stack[i];
+            //printf("* start : %d %d\n", start.x, start.y);
+
+            //입구가 빈곳
+            if (map[start.x][start.y] == EMPTY) {
+                bfs(start);
+            }
+            //입구가 문
+            else if (beDoor(map[start.x][start.y])) {
+                if (beKeyforDoor(map[start.x][start.y])) {
+                    bfs(start);
+                }
+            }
+            //입구가 달러
+            else if (map[start.x][start.y] == GOAL) {
+                visited_goal[start.x][start.y] = 1;
+                bfs(start);
+            }
+            //입구가 키
+            else if (beKey(map[start.x][start.y])) {
+                //알고 있는 키
+                if (!key[map[start.x][start.y] - 'a']) {
+                    flag_found_key = 1;
+
+                    key[map[start.x][start.y] - 'a'] = 1;
+                }
+                bfs(start);
+            }
+
+
+            if (flag_found_key) {
+                //printf("key find!\n");
+                i = -1;
+                flag_found_key = 0;
+            }
+        }
+
+
+        int res = 0;
+        for (int i = 0;i < h;i++) {
+            for (int j = 0;j < w;j++) {
+                if (visited_goal[i][j]) res++;
+                //if (visited_goal[i][j] && res) printf("%d %d\n", i, j);
+            }
+        }
+        printf("%d\n", res);
+    }
+
+    return 0;
+}
+
+/*
+키를 hash로
+
+
+#1)
+1
+3 4
+****
+A.$*
+****
+a
+
+ans : 1
+
+#2)
+1
+10 10
+JEMOTOFJOY
+VMISTuVMsV
+THVIQLMNXZ
+RIEVJUQTUT
+RN$UGDEXWE
+VESTQEMFgU
+RCSiYMTTLC
+LLdXTNJGXG
+YRKBKSqIoD
+RRDFPXMNHJ
+l
+
+ans : 1
+
+#3)
+1
+4 7
+*A*B*C*
+*C*$*a*
+*$*c*$*
+****a**
+c
+
+ans : 2
+
+#4)
+1
+28 5
+*A*a*
+*b*B*
+*C*c*
+*d*D*
+*E*e*
+*f*F*
+*G*g*
+*h*H*
+*I*i*
+*j*J*
+*K*k*
+*l*L*
+*M*m*
+*n*N*
+*O*o*
+*p*P*
+*Q*q*
+*r*R*
+*S*s*
+*t*T*
+*U*u*
+*v*V*
+*W*w*
+*x*X*
+*Y*y*
+*z*Z*
+*$*$*
+*****
+0
+
+ans : 2
+
+
+탐색하면서 문큐에 문다 때려넣고
+열쇠 찾으면 문큐 다 꺼내서 이동
+*/
+```
+{% include code_close.html %}
+
+
+##
