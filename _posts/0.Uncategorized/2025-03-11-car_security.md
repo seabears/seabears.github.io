@@ -82,7 +82,7 @@ published: true        # true | false
 
 <br>
 
-- SBOM : SW  Bill of Materials  
+- SBOM : SW Bill of Materials  
   - SW 공급망위협관리를 위한 투명한 SW 구성요소 정보 제공  
 
 <br>
