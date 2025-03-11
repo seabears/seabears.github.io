@@ -20,6 +20,7 @@ pin: false              # true | false
 published: true        # true | false
 ---
 
+## 자동차 사이버 보안 개요  
 
 - 📌 **Key Security Concepts : CIA triad**  
   - 1. Confidentiality (기밀성)  
@@ -87,10 +88,20 @@ published: true        # true | false
 
 <br>
 
-
-
 birthday paradox
 생일이 모두 다를 확률을 생각하면 됨
 1-(365/365 * 364/365 * 363/365 ... ) < 0.5
 23명이 모이면 생일이 겹칠 확률이 50%가 넘는다
+
+
+## 
+
+- **String**
+
+
+
+##
+
+- Dynamic allocation  
+  - safety-critical systems에서는 사용하지 않는다  
 

@@ -3345,4 +3345,109 @@ ans : 2
 {% include code_close.html %}
 
 
+## 📌 29. A->B
+[백준 16953번](https://www.acmicpc.net/problem/16953)
+{% include code_open.html title="bfs 코드 보기" %}
+```c
+#include<stdio.h>
+#include<stdbool.h>
+
+#define MAX 10000
+
+typedef struct {
+	long long val;	//new.val = cur.val * 10 + 1;에서 overflow발생가능성 있기에 long long
+	int step;
+}Node;
+
+Node queue[MAX];
+int front = 0, rear = 0;
+
+void enqueue(Node new) {
+	queue[rear++] = new;
+}
+Node dequeue() {
+	return queue[front++];
+}
+int bfs(int A, int B) {
+	bool visited[10000000 + 1] = { 0 };
+	visited[A] = 1;
+	enqueue((Node) { A, 0 });
+
+	while (front < rear) {
+		Node cur = dequeue();
+		if (cur.val == B) {
+			return cur.step+1;
+		}
+		else if (cur.val > B) {
+			continue;
+		}
+
+		//printf("%d\n", cur.val);
+		for (int i = 0;i < 2;i++) {
+			Node new = { 2 * cur.val, cur.step + 1 };
+			if (i == 1) new.val = cur.val * 10 + 1;
+
+			if (new.val <= B) {
+				visited[new.val] = 1;
+				enqueue(new);
+			}
+		}
+
+	}
+
+	return -1;
+}
+
+
+int main() {
+	int A, B;
+	scanf("%d %d", &A, &B);
+
+	int res = bfs(A, B);
+	printf("%d\n", res);
+
+	return 0;
+}
+```
+{% include code_close.html %}
+
+{% include code_open.html title="bfs 필요 없는 간단한 코드 보기" %}
+```c
+#include <stdio.h>
+
+int main() {
+    long long A, B;
+    scanf("%lld %lld", &A, &B);
+    
+    int count = 0;
+    
+    while (B > A) {
+        // B가 짝수일 경우 2로 나누기
+        if (B % 2 == 0) {
+            B /= 2;
+        }
+        // B의 마지막 자리가 1일 경우 1을 제거하기
+        else if (B % 10 == 1) {
+            B /= 10;
+        }
+        // 그 외의 경우는 불가능하므로 종료
+        else {
+            break;
+        }
+        count++;
+    }
+    
+    // B가 A로 변환되었으면 count를 출력, 아니라면 -1 출력
+    if (B == A) {
+        printf("%d\n", count + 1);  // 연산 횟수는 1을 더한 값 출력
+    } else {
+        printf("-1\n");
+    }
+    
+    return 0;
+}
+
+```
+{% include code_close.html %}
+
 ##
