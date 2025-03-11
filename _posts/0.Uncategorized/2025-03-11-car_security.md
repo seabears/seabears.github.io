@@ -17,7 +17,7 @@ tags:
 #image: "url_to_image.jpg"   # 대표 이미지 (옵션)
 #permalink: /category1/first-post/
 pin: false              # true | false
-published: false        # true | false
+published: true        # true | false
 ---
 
 
@@ -56,20 +56,36 @@ published: false        # true | false
 <br>
 
 - 📌 **소프트웨어 개발 생명 주기**  
-  - 정의 단계  
+  - 정의 단계 : What  
     - 1. 타당성 검토  
     - 2. 개발 계획  
     - 3. `요구사항 분석`  
-  - 개발 단계  
+  - 개발 단계 : How  
     - 4. `설계`  
     - 5. `개발`  
     - 6. `테스트`  
-  - 유지보수 단계  
+  - 유지보수 단계 : Change  
     - 7. `유지보수`  
     - 8. 폐기  
 
 <br>
 
+[소프트웨어 보안약점 진단가이드](https://www.kisa.or.kr/2060204/form?postSeq=9&page=1)  
+
+[소프트웨어 개발 보안 가이드](https://www.kisa.or.kr/2060204/form?postSeq=5&page=1)  
+
+<br>
+
+- 🔓 **보안 취약 사례**  
+  - [Log4j](https://namu.wiki/w/Log4j%20%EB%B3%B4%EC%95%88%20%EC%B7%A8%EC%95%BD%EC%A0%90%20%EC%82%AC%ED%83%9C#s-2.1)  
+  - 이니세이프 공급망 공격  
+
+<br>
+
+- SBOM : SW  Bill of Materials  
+  - SW 공급망위협관리를 위한 투명한 SW 구성요소 정보 제공  
+
+<br>
 
 
 
