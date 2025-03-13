@@ -1,5 +1,5 @@
 ---
-title: 🔒 car_security
+title: 🔒 Automotive Cybersecurity
 description: >-           #한 문장으로 나옴
   
 date: 2025-03-11 09:08:37 +0900
@@ -126,4 +126,22 @@ birthday paradox
     - 사용자 입력/네트워크 입력에 대한 펌웨어의 처리 과정과 결과 확인
   
 
-  
+---
+
+## Cybersecurity  
+
+### 1. Cybersecurity Overview  
+iso21434
+
+시중 차량 중 다수가 무선 기술 적용  
+주행 기록 및 차량 성능에 대한 많은 양의 데이터 수집 중  
+
+2015년 8월, Jeep와 Fiat Chrysler 자동차를 원격 해킹하여 와이퍼 이상 동작 및 엔진 정지하는 모습을 시연  
+-> 차량 140만대 리콜(Fiat Chrysler), 자동차 사이버보안 법 제정 준비 시작(미국)
+
+
+SAE J3061
+
+
+ISO 21434 : 사이버 보안 엔지니어링  
+ISO/PAS 5112 : 사이버 보안 심사 가이드라인  

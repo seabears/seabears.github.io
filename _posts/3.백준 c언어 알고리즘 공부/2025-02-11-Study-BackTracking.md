@@ -575,4 +575,112 @@ N개의 자연수 중에서 M개를 고른 수열
 ```
 {% include code_close.html %}
 
+### 📌 8. 치킨 배달
+[백준 15686번](https://www.acmicpc.net/problem/15686)
+{% include code_open.html title="코드 보기" %}
+```c
+#include<stdio.h>
+#include<stdbool.h>
+#include<string.h>
+
+#define INF (~(1<<31))
+#define MAX_MAP 50
+#define MAX_CHICKEN 13
+#define MAX_HOME (MAX_MAP * 2)
+
+#define MAX(a,b) ((a>b)?a:b)
+#define MIN(a,b) ((a<b)?a:b)
+
+typedef struct {
+    int x;
+    int y;
+}Pos;
+
+enum Map {
+    EMPTY = 0,
+    HOME = 1,
+    CHICKEN = 2,
+};
+int map[MAX_MAP][MAX_MAP] = { 0 };
+
+Pos stack_chicken[MAX_CHICKEN];
+int top_stack_chicken = 0;
+
+Pos stack_home[MAX_HOME];
+int top_stack_home = 0;
+
+int N, M;
+int selected[MAX_CHICKEN] = { 0 };
+int min_tot_dist = INF;
+
+int get_distance(int home, int chicken) {
+    Pos h = stack_home[home];
+    Pos c = stack_chicken[selected[chicken]];
+
+    int x = MAX(h.x, c.x) - MIN(h.x, c.x);
+    int y = MAX(h.y, c.y) - MIN(h.y, c.y);
+    
+    return x + y;
+}
+void cal_distance() {
+    int tot_dist = 0;
+
+    for (int i = 0;i < top_stack_home;i++) {
+        int min_dist = INF;
+        for (int j = 0;j < M;j++) {
+            int cur_dist = get_distance(i, j);
+            if (cur_dist < min_dist) min_dist = cur_dist;
+            //printf("%d\n", cur_dist);
+        }
+        tot_dist += min_dist;
+        //printf("%d\n", tot_dist);
+    }
+
+    if (tot_dist < min_tot_dist) min_tot_dist = tot_dist;
+}
+void select_chicken(int cur, int cnt) { // 치킨 조합 생성
+    if (cnt == M) {
+        cal_distance();
+        return;
+    }
+
+    for (int i = cur;i < top_stack_chicken;i++) {
+        selected[cnt] = i;
+        select_chicken(i + 1, cnt + 1);
+    }
+}
+int main() {
+
+    scanf("%d %d", &N, &M);
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            scanf("%d", &map[i][j]);
+            if (map[i][j] == HOME) {
+                stack_home[top_stack_home++] = (Pos){ i,j };
+            }
+            else if (map[i][j] == CHICKEN) {
+                stack_chicken[top_stack_chicken++] = (Pos){ i,j };
+            }
+        }
+    }
+
+    select_chicken(0, 0);
+
+    printf("%d\n", min_tot_dist);
+
+    return 0;
+}
+/*
+폐업시키지 않을 치킨집을 최대 M개를 골랐을 때, 도시의 치킨 거리의 최솟값 구하라
+
+r과 c는 1부터 시작한다.
+
+치킨 거리 = 집과 가장 가까운 치킨집 사이의 거리
+도시의 치킨 거리 = 모든 집의 치킨 거리의 총합
+수익 많이 치킨집 수 최대 M개만 골라서 치킨 거리 최소
+
+*/
+```
+{% include code_close.html %}
+
 ###
