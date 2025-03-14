@@ -1,5 +1,5 @@
 ---
-title: 🔒 Automotive Cybersecurity
+title: 🔒 Automotive Cybersecurity 정리중
 description: >-           #한 문장으로 나옴
   
 date: 2025-03-11 09:08:37 +0900
@@ -178,4 +178,40 @@ TARA :Threat Analysis and Risk Assessment 사이버보안 위협 분석
   - 2. 비기능 :   
     - 수행 방식, 응답속도, 성능, 보안 등  
     - ➡️ **어떻게 해야 하는가**  
+
+
+OTA
+ISO/CD 24089 이거 말고 새로나온 게 있음
+
+tara  
+
+- Risk Treatment Decision  
+  - 1. avoiding the risk (위험 요소 제거)  
+  - 2. rdeucing the risk  
+  - 3. sharing the risk  
+  - 4. retaining the risk   
+
+
+ISO : 국제 표준화 기구
+SAE : 자동차 공학회
+
+- ISO/SAE 21434 (Cybersecurity Engineering)
+  - 자동차 산업에서 사이버 보안을 보장하기 위한 국제 표준  
+  - 사이버 보안 엔지니어링을 위한 표준
+  - ex)
+    - 사이버 보안 관리(조직, 프로젝트)(CSMS, Cybersecurity Management System)
+    - 지속적인 사이버 보안 활동
+    - 분산개발 사이버 보안 활동
+    - 위험 평가 방법론(TARA, Threat Analysis and Risk Assessment)
+    - 엔지니어링 프로세스(개념, 개발, 생산, 운영 및 유지보수, 폐기)
+
+
+asset : 가치 있는 자원, 보호가 필요한 대상
+item : 특정한 시스템 또는 요소, 넓은 개념
+
+---
+
+참고문헌
+[ISO 21434 통한 실질적 사이버 보안 대응](https://www.autoelectronics.co.kr/article/articleView.asp?idx=4655)  
+
 
