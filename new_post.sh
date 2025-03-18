@@ -35,10 +35,6 @@ categories: # 카테고리
 tags: 
     - Untag1
 
-sitemap :
-  changefreq : daily
-  priority : 1.0
-
 #excerpt: "이 글의 요약"   # 요약
 #image: "url_to_image.jpg"   # 대표 이미지 (옵션)
 #permalink: /category1/first-post/
