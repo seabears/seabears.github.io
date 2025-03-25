@@ -296,18 +296,176 @@ crc :
 
 can crc
 15비트
+목표 haming distance = 6
+실제 haming distance = 2
 
 
 이더넷
 32비트 CRC
+91639~4294967295bit 이하 전송시 haming distance = 4
+3006bit 이하 전송시 haming distance = 5
+
+
+
+해밍 거리
+두 개의 같은 길이를 가진 데이터 간의 차이를 수치화하는 방법
+a : 1 1 0 0 0 1 0
+b : 1 1 0 1 0 0 1
+          v   v v
+haming distance = 3
+
+
+최소 해밍 거리
+minimum hamming distance
+
+
+
+ECC, Error Correction Code, 오류 정정 코드
+데이터 전송 또는 저장  시 발생할 수 잇는 오류를 검출하고 수정할 수 있는 코드를 의미
+자동차에서 ISO26262 만족을 위해 MCu 내 주요 메모리 에러 정정 가능
+MCU 내의 RAM, Flash, Register 등의 메모리는 낮은 확률로 저장된 값이 변경됨
+ECC로 보완
+
+
+https://blog.naver.com/techref/222267873732
+cpu 2개를 써서 (`lockstep`)
+똑같은 동작을 수행해서 register 값 같은지 확인
+
+
+
+해밍 부호, hamming code
+
+crc는 정정만
+
+차량내 CAN은 거의 주기적으로 보냄 ex 10ms
+
+
+XCP, Universal Measurement and Calibration Protocol
+CCP, CAN Calibration Protocol
+ECU의 변수 측정 및 튜닝(캘리브레이션)
+(차에 적합한 변수 값 설정)
+
+
+
+OSI 7 계층 및 TCP/IP
+
+Physical Layer
+
+Datalink
+오류 검출 및 재전송
+Switch가 목적지 MAC 주소를 참조하여 목적 PORT로 전달
+(바로 옆에 있는 애한테)
+(같은 공유기 내의 디바이스)
+
+Network Layer
+여러 네트워크를 거쳐 목적지까지 도달할 수 있도록 노드를 거칠 때마다 경로를 찾아주는 계층
+중간지마다 MAC 주소를 변경하면서 전달됨
+
+
+IP
+네트워크 계층에서 수신지와 목적지 컴퓨터의주소를 지정하기 위해 사용하는 주소로 인터넷에서 유일한 값이어야 함
+
+DNS
+문자열로 된 도메인 주소를 IP주소로 변경해주는 서버
+
+Transport Layer
+전송 계층
+
+Session Layer
+Session : 연결이 되어있는 상태
+제한 시간이 있음
+
+Presentation Layer
+데이터의 형식 차이 번역
+인코딩 변환, 암호화/복호화, 압축 등 수행
+
+
+tcp/ip는 소프트웨어임 OS가 제공
+자동차는 AUTOSAR가 제공
+
+
+통신 sw
+-> stack
+스택처럼 쌓여있어서..?
+
+
+- 네트워크에서 데이터를 전송하는 방식
+  - 유니캐스트, unicast
+    - 1:1 통신 방식
+    - 하나의 송신자가 하나의 수신자에게 데이터를  전송
+
+  - 멀티캐스트, multicast
+    - 1:N 통신 방식
+    - 하나의 송신자가 여러 수신자에게 데이터를 전송
+    - IPv4에서 D Class IP (224.0.0.0 ~ 239.255.255.255) 사용
+
+  - 브로드캐스트, broadcast
+    - 1:all 통신 방식
+    - 하나의 송신자가 같은 네트워크에 있는 모든 장치에 데이터를 전송
 
 
 
 
+UDP
+데이터 신뢰성 보장하지 않음
+데이터 순서 확인 불가
+송신 및 수신 노드는 미리 데이터를 주고 받는 것을 약속하지 않음
+어떤 노드가 데이터를 보내는지 알 수 없음
+메시지 누락 여부도 알 수 없음
+데이터 손실이 시스템에 큰 영향을 주지 않고 빠른 데이터 전송이 필요한 분야에서 활용됨
+ex) 스트리밍
+
+손상된 패킷 수신되면 패킷 버림
+빠르고 간단
+데이터 패킷을 Datagram이라 표현
+
+
+Port 번호
+웹 브라우저 80
+안에 코딩이 되어있음
+
+
+- tcp
+  - 연결 지향 프로토콜
+  - 통신 시작을 위해 연결이 필요함
+  - 신뢰성 있는 데이터 송수신
+  - 흐름 제어, Flow control
+    - 수신지의 application이 rx버퍼 읽는  속도보다 송신자의 전송 시간이 더 빠른 경우 문제
+    - -> 수신자의 버퍼 상태를 체크하여 받을 수 잇는 만큼의 메시지를 전송
+    - Stop & Wait
+    - 수신 노드에서 ACK 신호를 수신한 이후 새로운 메시지 전송
+  - 혼잡 제어, Congestion control
+    - 전송 계층이 네트워크의 혼잡을 감지하여 제어하는 방법
+      - AIMD
+        - TCP 혼잡 제어의 핵심 원리
+        - 송신자의 메시지가 누락을 감지하면, 송신 속도를 절반으로 줄임(곱셈 감소)
+        - 성공적인 전송시 조금씩 증가(덧셈 증가)
+        - 누락시 다시 줄임
+      - Slow Start
+      - 
+
+  - 3 Way Handshake
+    - 1. syn
+    - 2. syn + ack
+    - 3. ack
+  - 스트림
+  - 소켓
+    - 네트워크에서 프로세스 간 통신을 가능하게 하는 소프트웨어 인터페이스
+
+
+can
+csma/ca
+
+csma/cr
 
 
 
 
+Clock Synchronization
+1. Offset Correction
+  시작 시점을 맞춤
+2. Rate Correction
+  클럭 frequency를 맞춤
 
 
 
