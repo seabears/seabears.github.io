@@ -19,13 +19,13 @@ sitemap :
 #excerpt: "이 글의 요약"   # 요약
 #image: "url_to_image.jpg"   # 대표 이미지 (옵션)
 #permalink: /category1/first-post/
-pin: true              # true | false
+pin: false              # true | false
 published: true        # true | false
 ---
 
 ## 📌 DFS, BFS
 
-## 📌# DFS
+## 📌 DFS
 깊이 우선 탐색, Depth-First Search
 최대한 깊이 내려간 뒤, 더이상 깊게 갈 곳이 엎을 경우 옆으로 이동
 
@@ -35,7 +35,7 @@ published: true        # true | false
 <br>
 
 
-## 📌# BFS
+## 📌 BFS
 너비 우선 탐색, Breadth-First Search
 최대한 넓게 이동한 다음, 더 이상 갈 수 없을 때 깊게 이동
 
@@ -45,7 +45,7 @@ https://devuna.tistory.com/32
 
 <br>
 
-## 📌# 사용 특징
+## 📌 사용 특징
 1) 모든 정점 방문 -> 둘다  
 2) 경로의 특징
 
@@ -62,7 +62,7 @@ dfs 백트래킹 필요할 수도
 bfs 최단거리시 typedef struct에 step 변수 넣기
 
 
-## 📌# 1. 최단 거리 예시
+## 📌 1. 최단 거리 예시
 
 백준 2178번  
 https://www.acmicpc.net/problem/2178
@@ -194,7 +194,7 @@ int main() {
 
 <br>
 
-## 📌# 2. 그냥 dfs, bfs
+## 📌 2. 그냥 dfs, bfs
 
 백준 2606번
 https://www.acmicpc.net/problem/2606
@@ -282,7 +282,7 @@ int main() {
 
 <br>
 
-## 📌# 3. flood fill (dfs)
+## 📌 3. flood fill (dfs)
 
 백준 2667번
 https://www.acmicpc.net/problem/2667
@@ -358,7 +358,7 @@ int main() {
 <br>
 
 
-## 📌# 4. 촌수 구하기 (bfs)
+## 📌 4. 촌수 구하기 (bfs)
 백준 2644번
 https://www.acmicpc.net/problem/2644
 
@@ -437,7 +437,7 @@ int main() {
 
 <br>
 
-## 📌# 5. 3차원 (bfs)
+## 📌 5. 3차원 (bfs)
 
 백준 7569번
 <https://www.acmicpc.net/problem/7569>
@@ -554,7 +554,7 @@ int main() {
 <br>
 
 
-## 📌# 6. dx 달라지는 (bfs)	나올만함
+## 📌 6. dx 달라지는 (bfs)	나올만함
 
 백준 1697번
 https://www.acmicpc.net/problem/1697
@@ -634,7 +634,7 @@ int main() {
 <br>
 
 
-## 📌# 7. bfs 몸풀기
+## 📌 7. bfs 몸풀기
 
 백준 5014번
 https://www.acmicpc.net/problem/5014
@@ -701,7 +701,7 @@ int main() {
 
 <br>
 
-## 📌# 8. dfs 영역 수 세기
+## 📌 8. dfs 영역 수 세기
 
 백준 2468번
 https://www.acmicpc.net/problem/2468
@@ -782,7 +782,7 @@ int main() {
 
 <br>
 
-## 📌# 9. dfs 맵이 계속 달라지는, 영역 수 세기
+## 📌 9. dfs 맵이 계속 달라지는, 영역 수 세기
 
 [백준 2573번](https://www.acmicpc.net/problem/2573)
 
@@ -907,7 +907,7 @@ int main() {
 <br>
 
 
-## 📌# 10. bfs : dfs인줄 알았는데, 새로운 관점임 ( 맵 없이 ) | 틀렸던
+## 📌 10. bfs : dfs인줄 알았는데, 새로운 관점임 ( 맵 없이 ) | 틀렸던
 
 백준 9205번
 https://www.acmicpc.net/problem/9205
@@ -1019,7 +1019,7 @@ int main() {
 <br>
 
 
-## 📌# 11. dfs + 시뮬레이션
+## 📌 11. dfs + 시뮬레이션
 
 [백준 14503번](https://www.acmicpc.net/problem/14503)
 
