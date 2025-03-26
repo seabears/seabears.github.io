@@ -430,8 +430,8 @@ Port 번호
   - 통신 시작을 위해 연결이 필요함
   - 신뢰성 있는 데이터 송수신
   - 흐름 제어, Flow control
-    - 수신지의 application이 rx버퍼 읽는  속도보다 송신자의 전송 시간이 더 빠른 경우 문제
-    - -> 수신자의 버퍼 상태를 체크하여 받을 수 잇는 만큼의 메시지를 전송
+    - 수신지의 application이 rx버퍼 읽는 속도보다 송신자의 전송 시간이 더 빠른 경우 문제
+    - -> `수신자의 버퍼 상태를 체크`하여 받을 수 잇는 만큼의 메시지를 전송
     - Stop & Wait
     - 수신 노드에서 ACK 신호를 수신한 이후 새로운 메시지 전송
   - 혼잡 제어, Congestion control
@@ -535,7 +535,41 @@ UDP NM(UDP Network Management)
 차량 E/E 아키텍처(Electrical and Electronic Architecture)
 SDV를 위한 기존 E/E 아키텍처의 변화가 요구됨
 
-Distributed -> Domain centralized 아키텍처 -> Vehicle centralized 아키텍처
+Distributed(분산 아키텍처) -> Domain centralized 아키텍처 -> Vehicle centralized 아키텍처
+
+Domain cetralized 아키텍처
+각 DCU는 세부 ECU 정보를 취합해 고속의 Ethernet을 이용하여 정보 공유
+기존 제어기는 단순 센서 및 엑추에이터의 기능 수행
+통합 제어는 DCU에서 수행
+특정 도메인에 포함된 제어기가 차량 전체에 배치되어 있을 수 있어 배선이 최적화 되지 않음
+
+Vehicle centralized 아키텍처
+ZCU, Zone Control Unit
+고성능 Vehicle Computer가 지역별로 배치된 ZCU의 정보를 수집하여 통합 제어
+Zonal Architecture를 적용하여 배선 최적화
+고속 통신을  활용해 차량 전체가 유기적으로 연결
+SOME/IP 등을 활용해 Vehicle Computer는 연결된 다양한 장치의 정보 및 기능 활용, 개발 가능 -> 유연한 환경 제공
+
+
+SOME/IP, Scalable service-Oriented MiddlewarE Over IP
+2011년, BMW에 의해 제안
+classic AUTOSAR 기반 ECU는 파일 시스템 지원 x
+XML, JSON 등의 파일 사용하지 않고 서비스 기반의 통신을 지원하려고
+
+SOME/IP 목표
+자원 사용이 적어야함
+use-case 및 통신 파트너와 호환 가능해야 함
+AUTOSAR와 호환, AUTOSAR PDU와 통신 가능해야 함
+작은 시스템에서 큰 시스템까지 확장 가능(scalable)해야 함
+
+서버 클라이언트 구조
+서버 : 서비스 제공 
+클라이언트 : 서비스 요청
+
+
+
+
+
 
 
 
