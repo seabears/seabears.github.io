@@ -938,7 +938,7 @@ int main() {
 
 
 ## 📌 4. 테트로미노
-[백준 14500번](https://www.acmicpc.net/problem/14500)
+[백준 14500번](https://www.acmicpc.net/problem/14500)  
 {% include code_open.html title="코드 보기" %}
 ```c
 #include<stdio.h>
