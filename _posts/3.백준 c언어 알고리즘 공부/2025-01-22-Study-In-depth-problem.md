@@ -12,10 +12,6 @@ categories: # 카테고리
 tags: 
     - Untag1
 
-sitemap :
-  changefreq : daily
-  priority : 1.0
-
 #excerpt: "이 글의 요약"   # 요약
 #image: "url_to_image.jpg"   # 대표 이미지 (옵션)
 #permalink: /category1/first-post/
@@ -24,13 +20,7 @@ published: true        # true | false
 ---
 
 
-### 심화문제
-Write your content here.
-
-
-### 심화
-
-#### 1. BFS 고려할 게 많음
+## 📌 1. BFS 고려할 게 많음
 
 백준 13460번  
 [https://www.acmicpc.net/problem/13460]
@@ -231,7 +221,7 @@ int main() {
 <br>
 
 
-#### 2. 재귀 : dfs인줄 알았음 유사함
+## 📌 2. 재귀 : dfs인줄 알았음 유사함
 백준 12100번  
 [https://www.acmicpc.net/problem/12100]
 
@@ -436,7 +426,7 @@ int main() {
 
 <br>
 
-#### 3. 뱀
+## 📌 3. 뱀
 백준 3190번  
 [https://www.acmicpc.net/problem/3190]
 
@@ -947,4 +937,148 @@ int main() {
 -> 뱀이 뱀의 몸과 부딪혔는지 판단하는 코드의 오버헤드가 크게 감소  
 
 
-####
+## 📌 4. 테트로미노
+[백준 14500번](https://www.acmicpc.net/problem/14500)
+{% include code_open.html title="코드 보기" %}
+```c
+#include<stdio.h>
+#include<stdbool.h>
+
+#define MAX_NM 500
+#define MAX_TETROMINO 7
+
+typedef struct {
+	int x;
+	int y;
+}Pos;
+
+typedef struct {
+	Pos block[4];
+}Tetromino;
+
+int N, M;
+int map[MAX_NM][MAX_NM];
+
+int max;
+Tetromino tetromino[MAX_TETROMINO] = {
+	{{ {0,0}, {0,1}, {0,2}, {0,3} }},
+	{{ {0,0}, {0,1}, {1,0}, {1,1} }},
+	{{ {0,0}, {1,0}, {2,0}, {2,1} }},
+	{{ {0,0}, {1,0}, {1,1}, {2,1} }},
+	{{ {0,0}, {0,1}, {0,2}, {1,1} }},
+
+	// 대칭 고려
+	{{ {0,0}, {1,0}, {2,0}, {2,-1} }},
+	{{ {0,0}, {1,0}, {1,-1}, {2,-1} }},
+};
+
+void rotate(Tetromino *cur, int n) {
+
+	for (int i = 0;i < n;i++) {	// 회전 수
+		for (int j = 1;j < 4;j++) {
+			Pos temp = cur->block[j];
+			cur->block[j] = (Pos){ temp.y, temp.x * -1 };
+		}
+	}
+
+	/*
+	0,1
+	1,0
+	0,-1
+	-1,0
+
+	2,1
+	1,-2
+	-2,-1
+	-1,2
+	
+	*/
+}
+bool checkValid(int x, int y, Tetromino object) {
+	bool ret = 1;
+
+	for (int i = 0;i < 4;i++) {
+		Pos temp = { object.block[i].x + x, object.block[i].y + y };
+
+		if (temp.x < 0 || temp.y < 0 || temp.x >= N || temp.y >= M) {
+			ret = 0;
+			return ret;
+		}
+	}
+
+	return ret;
+}
+int calPoint(int x, int y, Tetromino object) {
+	int ret = 0;
+
+	Tetromino cur = { 0 };
+	for (int i = 0;i < 4;i++) {
+		cur.block[i] = (Pos){ object.block[i].x + x, object.block[i].y + y };
+	
+		ret += map[cur.block[i].x][cur.block[i].y];
+	}
+
+	return ret;
+}
+void makeCase() {
+
+	for (int i = 0;i < N;i++) {
+		for (int j = 0;j < M;j++) {
+			
+			for (int k = 0;k < MAX_TETROMINO;k++) {
+				for (int l = 0;l < 4;l++) {
+
+					// 시간 줄이는 용
+					if (k <= 0) { // 1자 길쭉이
+						if (l >= 2) continue;
+					}
+					else if (k <= 1) { // 사각형
+						if (l >= 1) continue;
+					}
+
+					Tetromino new = tetromino[k];
+
+					rotate(&new, l);
+					
+					/*
+					if (i == 0 & j == 0) {
+						//printf("%d = %d %d\n", point, k, l);
+
+						for (int m = 0;m < 4;m++) {
+							printf("i:%d = %d %d\n", m, new.block[m].x, new.block[m].y);
+						}
+					}
+					*/
+
+					bool valid = checkValid(i, j, new);
+					if (valid) {
+						int point = calPoint(i, j, new);
+
+						//printf("%d\n", point);
+						if (point > max) max = point;
+					}
+				}
+			}
+		}
+	}
+}
+int main() {
+
+	scanf("%d %d", &N, &M);
+
+	for (int i = 0;i < N;i++) {
+		for (int j = 0;j < M;j++) {
+			scanf("%d", &map[i][j]);
+		}
+	}
+
+	makeCase();
+
+	printf("%d", max);
+
+	return 0;
+}
+```
+{% include code_close.html %}
+
+## 📌

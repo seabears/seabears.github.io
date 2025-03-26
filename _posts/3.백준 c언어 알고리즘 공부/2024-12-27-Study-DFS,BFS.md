@@ -23,9 +23,9 @@ pin: true              # true | false
 published: true        # true | false
 ---
 
-### DFS, BFS
+## 📌 DFS, BFS
 
-#### DFS
+## 📌# DFS
 깊이 우선 탐색, Depth-First Search
 최대한 깊이 내려간 뒤, 더이상 깊게 갈 곳이 엎을 경우 옆으로 이동
 
@@ -35,7 +35,7 @@ published: true        # true | false
 <br>
 
 
-#### BFS
+## 📌# BFS
 너비 우선 탐색, Breadth-First Search
 최대한 넓게 이동한 다음, 더 이상 갈 수 없을 때 깊게 이동
 
@@ -45,7 +45,7 @@ https://devuna.tistory.com/32
 
 <br>
 
-#### 사용 특징
+## 📌# 사용 특징
 1) 모든 정점 방문 -> 둘다  
 2) 경로의 특징
 
@@ -62,7 +62,7 @@ dfs 백트래킹 필요할 수도
 bfs 최단거리시 typedef struct에 step 변수 넣기
 
 
-#### 1. 최단 거리 예시
+## 📌# 1. 최단 거리 예시
 
 백준 2178번  
 https://www.acmicpc.net/problem/2178
@@ -194,7 +194,7 @@ int main() {
 
 <br>
 
-#### 2. 그냥 dfs, bfs
+## 📌# 2. 그냥 dfs, bfs
 
 백준 2606번
 https://www.acmicpc.net/problem/2606
@@ -282,7 +282,7 @@ int main() {
 
 <br>
 
-#### 3. flood fill (dfs)
+## 📌# 3. flood fill (dfs)
 
 백준 2667번
 https://www.acmicpc.net/problem/2667
@@ -358,7 +358,7 @@ int main() {
 <br>
 
 
-#### 4. 촌수 구하기 (bfs)
+## 📌# 4. 촌수 구하기 (bfs)
 백준 2644번
 https://www.acmicpc.net/problem/2644
 
@@ -437,7 +437,7 @@ int main() {
 
 <br>
 
-#### 5. 3차원 (bfs)
+## 📌# 5. 3차원 (bfs)
 
 백준 7569번
 <https://www.acmicpc.net/problem/7569>
@@ -554,7 +554,7 @@ int main() {
 <br>
 
 
-#### 6. dx 달라지는 (bfs)	나올만함
+## 📌# 6. dx 달라지는 (bfs)	나올만함
 
 백준 1697번
 https://www.acmicpc.net/problem/1697
@@ -634,7 +634,7 @@ int main() {
 <br>
 
 
-#### 7. bfs 몸풀기
+## 📌# 7. bfs 몸풀기
 
 백준 5014번
 https://www.acmicpc.net/problem/5014
@@ -701,7 +701,7 @@ int main() {
 
 <br>
 
-#### 8. dfs 영역 수 세기
+## 📌# 8. dfs 영역 수 세기
 
 백준 2468번
 https://www.acmicpc.net/problem/2468
@@ -782,7 +782,7 @@ int main() {
 
 <br>
 
-#### 9. dfs 맵이 계속 달라지는, 영역 수 세기
+## 📌# 9. dfs 맵이 계속 달라지는, 영역 수 세기
 
 [백준 2573번](https://www.acmicpc.net/problem/2573)
 
@@ -907,7 +907,7 @@ int main() {
 <br>
 
 
-#### 10. bfs : dfs인줄 알았는데, 새로운 관점임 ( 맵 없이 ) | 틀렸던
+## 📌# 10. bfs : dfs인줄 알았는데, 새로운 관점임 ( 맵 없이 ) | 틀렸던
 
 백준 9205번
 https://www.acmicpc.net/problem/9205
@@ -1019,7 +1019,7 @@ int main() {
 <br>
 
 
-#### 11. dfs + 시뮬레이션
+## 📌# 11. dfs + 시뮬레이션
 
 [백준 14503번](https://www.acmicpc.net/problem/14503)
 
@@ -1167,7 +1167,7 @@ int main() {
 다른 문제집  
 
 
-### 12. 그림 영역 수와 최대 영역 찾기  
+## 📌 12. 그림 영역 수와 최대 영역 찾기  
 [백준 1926번](https://www.acmicpc.net/problem/1926)
 
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
@@ -1340,7 +1340,7 @@ int main() {
 <br>
 
 
-### 13. 토마토(2차원)
+## 📌 13. 토마토(2차원)
 [백준 7576번](https://www.acmicpc.net/problem/7576)
 
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
@@ -1628,7 +1628,7 @@ int main() {
 
 <br>
 
-### 14. BFS 매턴마다 확장하는 불을 피해 탈출하는 문제  
+## 📌 14. BFS 매턴마다 확장하는 불을 피해 탈출하는 문제  
 [백준 4179번](https://www.acmicpc.net/problem/4179)
 
 
@@ -1763,7 +1763,7 @@ int main() {
 </div>
 </details>
 
-### 15. 배추 : 영역수 찾기 dfs
+## 📌 15. 배추 : 영역수 찾기 dfs
 [백준 1012번](https://www.acmicpc.net/problem/1012)
 
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
@@ -1836,7 +1836,7 @@ int main() {
 </details>
 <br>
 
-## 16. 적록색약 : 영역수 찾기 dfs, 특정 영역은 같이 처리
+## 📌 16. 적록색약 : 영역수 찾기 dfs, 특정 영역은 같이 처리
 [백준 10026번](https://www.acmicpc.net/problem/10026)
 
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
@@ -1925,7 +1925,7 @@ int main() {
 </details>
 <br>
 
-## 17. 체스 나이트 원하는 곳까지 이동시키기 : BFS
+## 📌 17. 체스 나이트 원하는 곳까지 이동시키기 : BFS
 [백준 7562번](https://www.acmicpc.net/problem/7562)
 
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
@@ -2009,7 +2009,7 @@ int main() {
 </details>
 <br>
 
-## 18. 빌딩 탈출 : 3차원 BFS, 최단거리
+## 📌 18. 빌딩 탈출 : 3차원 BFS, 최단거리
 [백준 6593번](https://www.acmicpc.net/problem/6593)
 
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
@@ -2106,7 +2106,7 @@ int main() {
 </details>
 <br>
 
-## 19. 벽 부수고 이동 : BFS 벽 부쉈, 안 부쉈을 다른 visited로 관리, visited로 최단거리 저장
+## 📌 19. 벽 부수고 이동 : BFS 벽 부쉈, 안 부쉈을 다른 visited로 관리, visited로 최단거리 저장
 [백준 2206번](https://www.acmicpc.net/problem/2206)
 
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
@@ -2199,7 +2199,7 @@ int main() {
 <br>
 
 
-## 20. 다른 섬까지 가는 최소 다리 길이 찾기 : DFS, BFS 둘다 사용
+## 📌 20. 다른 섬까지 가는 최소 다리 길이 찾기 : DFS, BFS 둘다 사용
 [백준 2146번](https://www.acmicpc.net/problem/2146)  
 
 DFS는 섬 구별, BFS는 최소 다리 찾기에 사용  
@@ -2348,7 +2348,7 @@ int main() {
 </details>
 <br>
 
-## 21. 그래프, 연결 요소의 개수 찾기 : dfs
+## 📌 21. 그래프, 연결 요소의 개수 찾기 : dfs
 [백준 11724번](https://www.acmicpc.net/problem/11724)
 
 서로 연결된 그룹의 개수를 찾는 문제  
@@ -2410,7 +2410,7 @@ int main() {
 </details>
 <br>
 
-## 22. 그래프, 정점 1부터 연결된 두번 걸친곳 까지의 개수 찾기 : bfs, dfs 둘다 구현해봄
+## 📌 22. 그래프, 정점 1부터 연결된 두번 걸친곳 까지의 개수 찾기 : bfs, dfs 둘다 구현해봄
 [백준 5567번](https://www.acmicpc.net/problem/5567)
 
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
@@ -2562,7 +2562,7 @@ int main() {
 </details>
 <br>
 
-## 23. 특정 정점에서 갈 수 있는 모든 정점 표시하기 : dfs : 아직 정리 못함
+## 📌 23. 특정 정점에서 갈 수 있는 모든 정점 표시하기 : dfs : 아직 정리 못함
 [백준 11403번](https://www.acmicpc.net/problem/11403)
 
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
@@ -3447,6 +3447,124 @@ int main() {
     return 0;
 }
 
+```
+{% include code_close.html %}
+
+## 📌 30. 연구소 : 백트래킹으로 케이스를 만들고, dfs탐색
+[백준 14502번](https://www.acmicpc.net/problem/14502)
+{% include code_open.html title="코드 보기" %}
+```c
+#include<stdio.h>
+#include<string.h>
+
+#define MAX_N 8
+#define MAX_M 8
+#define MAX_VIRUS 10
+
+enum Map {
+	EMPTY = 0,
+	WALL = 1,
+	VIRUS = 2,
+};
+
+typedef struct {
+	int x;
+	int y;
+}Pos;
+
+int N, M;
+int map[MAX_N][MAX_M];
+Pos virus_stack[MAX_VIRUS];
+int virus_stack_top = 0;
+
+int dx[4] = { 0,0,1,-1 };
+int dy[4] = { 1,-1,0,0 };
+
+int temp_map[MAX_N][MAX_M];
+
+int max = 0;
+void debug() {
+	printf("---------\n");
+	for (int i = 0;i < N;i++) {
+		for (int j = 0;j < M;j++) {
+			printf("%d ", temp_map[i][j]);
+		}
+		printf("\n");
+	}
+}
+void dfs(Pos cur) {
+	//visited[cur.x][cur.y] = 1;
+	temp_map[cur.x][cur.y] = VIRUS;
+
+	for (int i = 0;i < 4;i++) {
+		Pos new = { cur.x + dx[i], cur.y + dy[i] };
+		if (new.x >= 0 && new.x < N && new.y >= 0 && new.y < M && temp_map[new.x][new.y] == EMPTY) {
+			dfs(new);
+		}
+	}
+}
+void makeCase(int step) {
+	if (step == 3) {
+
+		memcpy(temp_map, map, sizeof(temp_map));
+
+		for (int i = 0;i < virus_stack_top;i++) {
+			dfs(virus_stack[i]);
+		}
+
+		int cnt = 0;
+		for (int i = 0;i < N;i++) {
+			for (int j = 0;j < M;j++) {
+				if (temp_map[i][j] == EMPTY) {
+					cnt++;
+				}
+			}
+		}
+		if (cnt > max) {
+			max = cnt;
+		}
+
+		//debug();
+
+		return;
+	}
+
+	for (int i = 0;i < N;i++) {
+		for (int j = 0;j < M;j++) {
+			if (map[i][j] == EMPTY) {
+				map[i][j] = WALL;
+				makeCase(step + 1);
+				map[i][j] = EMPTY;
+			}
+		}
+	}
+}
+int main() {
+
+	scanf("%d %d", &N, &M);
+
+	for (int i = 0;i < N;i++) {
+		for (int j = 0;j < M;j++) {
+			scanf("%d", &map[i][j]);
+			if (map[i][j] == VIRUS) {
+				virus_stack[virus_stack_top++] = (Pos){ i,j };
+			}
+		}
+	}
+
+	makeCase(0);
+	
+	printf("%d\n", max);
+
+	return 0;
+}
+/*
+안전 영역의 최대 크기
+2<= 바이러스 수 <= 10
+벽 3개 세울 수 있음
+
+
+*/
 ```
 {% include code_close.html %}
 

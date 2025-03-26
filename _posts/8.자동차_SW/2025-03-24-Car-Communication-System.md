@@ -469,6 +469,78 @@ Clock Synchronization
 
 
 
+
+
+AUTOSAR Ethernet
+
+
+Vector사의 CANoe 프로그램 많이 사용
+
+can db 데이터베이스
+can은 소수 못보냄
+소수 원하면 scale 곱해서 씀
+ex 0.125 곱하거나
+
+DBC파일로 정의(OEM에서 정의)
+
+https://www.csselectronics.com/pages/can-dbc-file-database-intro
+```
+VERSION 1.0
+BO_ 1234 EngineSpeed: 8 Vector__XXX
+SG_ Engine_RPM : 0|16@1+ (0.125,0) [0|10000] "rpm" EngineSpeed
+```
+
+| 항목            | 설명                                                            |
+| --------------- | --------------------------------------------------------------- |
+| **VERSION**     | DBC 파일의 버전 (1.0)                                           |
+| **BO_ 1234**    | **Message** 정의: CAN 메시지의 ID가 1234인 `EngineSpeed` 메시지 |
+| **EngineSpeed** | **Message Name**: 메시지 이름 (엔진 속도)                       |
+| **8**           | **Length**: 메시지의 크기 (8바이트)                             |
+| **Vector__XXX** | **Node**: 메시지를 송수신하는 노드(ECU) 이름                    |
+
+| 항목               | 설명                                                                             |
+| ------------------ | -------------------------------------------------------------------------------- |
+| **SG_ Engine_RPM** | **Signal** 정의: 메시지 내의 신호 `Engine_RPM`                                   |
+| **0\|16**          | **Bit Position\|Length**: 신호가 메시지에서 0번째 비트부터 시작하며, 16비트 크기 |
+| **@1**             | **Byte Order**: 데이터가 리틀 엔디언 형식으로 저장됨                             |
+| **+**              | **Signed/Unsigned**: 신호가 양수만 가짐 (부호가 없음)                            |
+| **(0.125, 0)**     | **Scaling**: 실제 값은 캡처된 값에 0.125를 곱하고 0을 더한 값                    |
+| **[0\|10000]**     | **Value Range**: 신호 값의 범위 (0~10000)                                        |
+| **"rpm"**          | **Unit**: 신호의 단위 (rpm, 엔진 속도)                                           |
+| **EngineSpeed**    | **Message Name**: 이 신호가 속한 메시지 이름 (EngineSpeed)                       |
+
+
+
+can sleep 제어
+버튼 누르면 그 제어기 깨어나서 msg보내고 msg 받은 다른 것들이 깨어남
+보통 다깨움, partial can network(개별 제어기 on/off) 개발중
+저전력 제어
+
+OTA
+리프로그래밍
+MCU 내에 Flash를 지우고 다시 써야 함
+동작 중에 불가능함(mpu는 flash를 ram에 복사해서 실행, mcu는 flash에서 바로 실행)
+tc375는 ota 가능(flash가 2개임, 주행중 업데이트 동안 다른 flash 사용)
+
+ota지원 안하는 mcu들은
+RAM에 업데이트본을 받고, 시동 끄면 강제로 키고 그때 Flash 업데이트
+(전기 생산 안되고 있음, 배터리만 사용(방전 문제 생길 수도 있음, 업데이트 오래걸려서 배터리 방전, Flash 다 못 쓸 수 있음))
+
+
+UDP NM(UDP Network Management)
+(NM하려면 트랜시버에 저전력 제어 기능이 있어야 함)
+
+
+
+차량 E/E 아키텍처(Electrical and Electronic Architecture)
+SDV를 위한 기존 E/E 아키텍처의 변화가 요구됨
+
+Distributed -> Domain centralized 아키텍처 -> Vehicle centralized 아키텍처
+
+
+
+
+
 Bosch!!!
 
 
