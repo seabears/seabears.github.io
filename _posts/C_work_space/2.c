@@ -6,3 +6,5 @@ if(read4>5000){
     write6 = read1;
     if(read3 - read2 < )
 }
+
+d
