@@ -569,6 +569,23 @@ AUTOSAR와 호환, AUTOSAR PDU와 통신 가능해야 함
 
 
 
+DoIP, Diagnostics over Internet Protocol
+진단통신
+
+
+
+Ethernet AVB
+
+
+
+CBS, Credit-Based Shaping
+대역폭을 효율적으로 활용하고 혼잡을 방지하기 위해 사용
+IEEE 802.1 Qav
+AVB
+트래픽 흐름 조절, 네트워크의 지연과 대역폭 사용의 효율성 관리
+각 트래픽 스트림에 대해 크레딧 할당
+
+
 
 
 

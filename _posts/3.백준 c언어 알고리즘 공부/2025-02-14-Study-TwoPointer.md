@@ -28,8 +28,19 @@ published: true        # true | false
 
 ex) 한 반복문 안에서 조건에 따라 left와 right를 적절히 조절하며 원하는 값을 찾음
 
+|                   | **이진 탐색 (Binary Search)**                                        | **투 포인터 (Two-pointer)**                                                     |
+| ----------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| **시간 복잡도**   | O(log N)                                                             | O(N)                                                                            |
+| **사용 조건**     | 배열이 **정렬**되어 있어야 함                                        | 배열이 **정렬**되어 있어야 함                                                   |
+| **사용되는 상황** | - 특정 값이 배열에 존재하는지 확인 <br> - 범위 내 최솟값/최댓값 찾기 | - 두 값의 합 문제 <br> - 부분 합 문제 <br> - 두 값이 특정 조건을 만족하는 문제  |
+| **장점**          | - 매우 효율적 (O(log N)) <br> - 큰 배열에서 유리                     | - 두 값의 관계를 효율적으로 탐색 <br> - 한 번의 순회로 해결                     |
+| **단점**          | - 배열이 정렬되어 있어야 함 <br> - 복잡한 문제에는 불편              | - 배열이 정렬되어 있어야 함 <br> - 세 개 이상의 포인터나 복잡한 조건에서는 불편 |
+
+
+
+
 ---
-### 📌 1. 두 수의 차가 M이상이면서 최소인 차이 값 구하기
+## 📌 1. 두 수의 차가 M이상이면서 최소인 차이 값 구하기
 [백준 2230번](https://www.acmicpc.net/problem/2230)  
 
 왼쪽 0, 1에서 시작  
@@ -120,7 +131,7 @@ for (int i = 0; i < N; i++) {
 <br>
 
 ---
-### 📌 2. 합이 S 이상이 되는 부분합 중, 가장 짧은 것의 길이 구하기
+## 📌 2. 합이 S 이상이 되는 부분합 중, 가장 짧은 것의 길이 구하기
 [백준 1806번](https://www.acmicpc.net/problem/1806)
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
     <summary style="font-weight: bold; cursor: pointer;">코드 보기</summary>
@@ -182,7 +193,7 @@ N개의 수열에서 연속된 부분합 중 S이상, 가장 적게 선택
 <br>
 
 ---
-### 📌 3. 소수의 연속합
+## 📌 3. 소수의 연속합
 [백준 1644번](https://www.acmicpc.net/problem/1644)
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
     <summary style="font-weight: bold; cursor: pointer;">코드 보기</summary>
@@ -250,7 +261,7 @@ int main() {
 <br>
 
 ---
-### 📌 4. 수의 연속합
+## 📌 4. 수의 연속합
 [백준 2003번](https://www.acmicpc.net/problem/2003)
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
     <summary style="font-weight: bold; cursor: pointer;">코드 보기</summary>
@@ -300,7 +311,7 @@ i부터 j까지 합이 M이 되는 경우의 수
 <br>
 
 ---
-### 📌 5. 특정 개수이상 겹치지 않는 부분 수열
+## 📌 5. 특정 개수이상 겹치지 않는 부분 수열
 [백준 20922번](https://www.acmicpc.net/problem/20922)  
 {% include code_open.html title="코드 보기" %}
 
@@ -347,7 +358,7 @@ int main() {
 {% include code_close.html %}
 
 ---
-### 📌 6. 가장 긴 짝수 부분 수열, K개 홀수 제외 가능
+## 📌 6. 가장 긴 짝수 부분 수열, K개 홀수 제외 가능
 [백준 22862번](https://www.acmicpc.net/problem/22862)
 {% include code_open.html title="코드 보기" %}
 ```c
@@ -417,4 +428,65 @@ int main() {
 
 
 ---
-### 📌 7. 
+## 📌 7. 좋다 : 두 값의 관계를 이용할 때, 투포인터 사용
+[백준 1253번](https://www.acmicpc.net/problem/1253)
+{% include code_open.html title="코드 보기" %}
+```c
+#include<stdio.h>
+#include<stdlib.h>
+
+#define MAX_N 2000
+
+int N;
+int num[MAX_N] = { 0 };
+
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+
+	scanf("%d", &N);
+	for (int i = 0;i < N;i++) {
+		scanf("%d", &num[i]);
+	}
+
+	qsort(num, N, sizeof(int), cmp);
+
+	int cnt = 0;
+	for (int i = 0;i < N;i++) {
+		int target = num[i];
+		int left = 0, right = N - 1;
+
+		while (left < right) {	// left <= right는 안됨 : 한 숫자 중복사용 금지
+			if (left == i) {
+				left++;
+				continue;
+			}
+			if (right == i) {
+				right--;
+				continue;
+			}
+
+			int sum = num[left] + num[right];
+
+			if (sum == target) {	// 찾음
+				cnt++;
+				break;
+			}
+			else if (sum < target) {
+				left += 1;
+			}
+			else if (sum > target) {
+				right -= 1;
+			}
+		}
+	}
+
+	printf("%d\n", cnt);
+
+	return 0;
+}
+```
+{% include code_close.html %}
+
+##
