@@ -588,6 +588,19 @@ AVB
 
 
 
+.elf 디버깅 정보 포함
+.hex
+
+
+
+
+tc375tp
+ota지원
+멀티코어
+300MHz 3개의 32비트 코어
+2checker core(cpu0, cpu1) = lockstep
+똑같은 코드를 두 cpu가 실행시키고 결과를 비교
+
 
 
 
