@@ -152,7 +152,7 @@ pwa:
 # Enable plugins #내가 추가
 plugins:
   - jekyll-seo-tag
-  - jekyll-sitemap
+#  - jekyll-sitemap
 
 paginate: 10
 
