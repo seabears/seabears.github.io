@@ -25,7 +25,7 @@ published: true        # true | false
 
 ## 이진 탐색  
 
-## 1.   
+## 📌 1.   
 [백준 14425번](https://www.acmicpc.net/problem/14425)  
 
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
@@ -140,7 +140,7 @@ qsort에 strcmp를 이용하면 바로 사전순 정렬 가능
 <br>
 
 
-## 2. 이진 탐색을 잘 설명하는 문제  
+## 📌 2. 이진 탐색을 잘 설명하는 문제  
 [백준 1920번](https://www.acmicpc.net/problem/1920)
 
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
@@ -208,7 +208,7 @@ int main() {
 <br>
 
 
-## 3. 숫자 카드 나열해주고 몇개인지 찾기  
+## 📌 3. 숫자 카드 나열해주고 몇개인지 찾기  
 [백준 10816번](https://www.acmicpc.net/problem/10816)
 
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
@@ -363,7 +363,7 @@ int main() {
 
 <br>
 
-## 4. 차집합 : 그냥 이진 탐색 중 하나  
+## 📌 4. 차집합 : 그냥 이진 탐색 중 하나  
 
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
     <summary style="font-weight: bold; cursor: pointer;">코드 보기</summary>
@@ -432,7 +432,7 @@ int main() {
 
 <br>
 
-## 5. 여러 랜선 잘라서 N개 이상 최대 길이 랜선 찾기
+## 📌 5. 여러 랜선 잘라서 N개 이상 최대 길이 랜선 찾기
 [백준 1654번](https://www.acmicpc.net/problem/1654)  
 
 <details style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
@@ -625,3 +625,198 @@ ans : 36
 ```
 {% include code_close.html %}
 
+## 📌 8. 세 수의 합 : bsearch, stdlib.h 내장 함수 사용해봄
+[백준 2295번](https://www.acmicpc.net/problem/2295)
+{% include code_open.html title="개선 코드 보기" %}
+```c
+#include<stdio.h>
+#include<stdlib.h>
+
+#define MAX_N 1000
+
+int check(int* arr, int size, int key) {
+	//printf("%d\n", key);
+	int start = 0, end = size - 1;
+	while (start <= end) {
+		int middle = start + (end - start) / 2;
+
+		if (arr[middle] == key) {
+			//printf("find %d\n", key);
+			return 1;
+		}
+		else if (arr[middle] < key) {
+			start = middle + 1;
+		}
+		else if (arr[middle] > key) {
+			end = middle - 1;
+		}
+	}
+	return 0;
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+
+	int N;
+	scanf("%d", &N);
+	int num[MAX_N];
+	for (int i = 0;i < N;i++) {
+		scanf("%d", &num[i]);
+	}
+
+	qsort(num, N, sizeof(int), cmp);
+
+	int sum[MAX_N * MAX_N] = { 0 };
+	int sum_idx = 0;
+	for (int i = 0;i < N;i++) {
+		for (int j = i;j < N;j++) {
+			sum[sum_idx++] = num[i] + num[j];
+		}
+	}
+
+	qsort(sum, sum_idx, sizeof(int), cmp);
+
+	for (int i = N - 1;i >= 0;i--) {
+		for (int j = 0;j < N;j++) {
+			int key = num[i] - num[j];
+			if (check(sum, sum_idx, key)) {
+				printf("%d\n", num[i]);
+				return 0;
+			}
+		}
+	}
+
+	return 0;
+}
+/*
+U[x] + U[y] + U[z] = U[k]
+U[k] - U[z] = U[x] + U[y]
+
+U[x] + U[y]은 sum[]에 미리 다 저장
+
+*/
+```
+{% include code_close.html %}
+
+{% include code_open.html title="처음 만든 코드 보기(시간 초과)" %}
+```c
+#include<stdio.h>
+#include<stdlib.h>
+
+#define MAX_N 1000
+
+int N;
+int num[MAX_N];
+int max = 0;
+
+int selected[3];
+int check() {
+	int key = selected[0] + selected[1] + selected[2];
+	//printf("%d\n", key);
+	int start = selected[2], end = N - 1;
+	while (start <= end) {
+		int middle = start + (end - start) / 2;
+
+		if (num[middle] == key) {
+			//printf("find %d\n", key);
+			return key;
+		}
+		else if (num[middle] < key) {
+			start = middle + 1;
+		}
+		else if (num[middle] > key) {
+			end = middle - 1;
+		}
+	}
+
+	return 0;
+}
+void makeCase(int step) {
+	if (step == 3) {
+		int cur = check();
+		
+		//printf("max : %d\n", max);
+		if (cur > max) {
+			max = cur;
+			//printf("max : %d\n", max);
+		}
+		return;
+	}
+
+	for (int i = 0;i < N;i++) {
+		//printf("? %d\n", num[i]);
+		selected[step] = num[i];
+		
+		makeCase(step + 1);
+	}
+
+}
+int cmp(const void* a, const void* b) {
+	return *(int*)a - *(int*)b;
+}
+int main() {
+
+	scanf("%d", &N);
+	for (int i = 0;i < N;i++) {
+		scanf("%d", &num[i]);
+	}
+
+	qsort(num, N, sizeof(int), cmp);
+	makeCase(0);
+
+	printf("%d\n", max);
+
+	return 0;
+}
+```
+{% include code_close.html %}
+
+{% include code_open.html title="bsearch 내장 함수 사용 코드 보기" %}
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_N 1000
+
+int compare(const void *a, const void *b) {
+    return (*(int *)a - *(int *)b);
+}
+
+int main() {
+    int N, U[MAX_N];
+    int sum_table[MAX_N * MAX_N], sum_count = 0;
+    
+    scanf("%d", &N);
+    for (int i = 0; i < N; i++) {
+        scanf("%d", &U[i]);
+    }
+    
+    qsort(U, N, sizeof(int), compare);
+    
+    // 두 수의 합을 미리 계산하여 저장
+    for (int i = 0; i < N; i++) {
+        for (int j = i; j < N; j++) {
+            sum_table[sum_count++] = U[i] + U[j];
+        }
+    }
+    
+    qsort(sum_table, sum_count, sizeof(int), compare);
+    
+    // 가장 큰 수부터 시작하여 찾기
+    for (int k = N - 1; k >= 0; k--) {
+        for (int i = 0; i < N; i++) {
+            int target = U[k] - U[i];
+            if (bsearch(&target, sum_table, sum_count, sizeof(int), compare) != NULL) {
+                printf("%d\n", U[k]);
+                return 0;
+            }
+        }
+    }
+    
+    return 0;
+}
+```
+{% include code_close.html %}
+
+## 
