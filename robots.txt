@@ -4,5 +4,5 @@ permalink: /robots.txt
 ---
 
 User-agent: *
-
-Sitemap: https://seabears.github.io/sitemap.xml
+Allow: /
+Sitemap: https://seabears.github.io/my-sitemap.xml
