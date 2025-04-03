@@ -3568,4 +3568,232 @@ int main() {
 ```
 {% include code_close.html %}
 
+## 📌 31. 조각 움직이기 : 비효율적이라 개선 필요
+[백준 1035번](https://www.acmicpc.net/problem/1035)
+{% include code_open.html title="코드 보기" %}
+```c
+#include<stdio.h>
+#include<string.h>
+#include<stdbool.h>
+
+#define INF (~(1<<31))
+#define MAX_MAP 5
+#define MAX_PIECE 5
+
+enum Map {
+    PIECE = '*',
+    EMPTY = '.',
+};
+
+typedef struct {
+    int x;
+    int y;
+    int step;
+}Pos;
+
+char map[MAX_MAP][MAX_MAP];
+Pos piece[MAX_PIECE];
+int piece_top = 0;
+
+Pos selected[MAX_PIECE];
+
+int min = INF;
+
+int dx[4] = { 0,0,1,-1 };
+int dy[4] = { 1,-1,0,0 };
+
+Pos queue[5 * 5];
+int front = 0, rear = 0;
+void enqueue(Pos new) {
+    queue[rear++] = new;
+}
+Pos dequeue() {
+    return queue[front++];
+}
+
+int debug() {
+    if (selected[0].x == 1 && selected[0].y == 2) {
+        if (selected[1].x == 1 && selected[1].y == 3) {
+            if (selected[2].x == 2 && selected[2].y == 3) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+// start : [0]
+int valid = 0;
+int dfs_visited[5][5];
+int dfs_cnt = 0;
+void valid_dfs(Pos cur, char temp_map[5][5]) {
+    dfs_cnt++;
+    if(dfs_cnt == piece_top) {  // TODO already modified
+        valid = 1;
+        return;
+    }
+
+    dfs_visited[cur.x][cur.y] = 1;
+    for (int i = 0;i < 4;i++) {
+        Pos new = { cur.x + dx[i], cur.y + dy[i], cur.step + 1 };
+        if (new.x >= 0 && new.x < 5 && new.y >= 0 && new.y < 5 && temp_map[new.x][new.y] == PIECE && !dfs_visited[new.x][new.y]) {
+            valid_dfs(new, temp_map);
+        }
+    }
+}
+int beValid() {
+    valid = 0;
+    memset(dfs_visited, 0, sizeof(dfs_visited));
+    dfs_cnt = 0;
+    char temp_map[5][5] = { 0 };
+
+    for (int i = 0;i < piece_top;i++) {
+        temp_map[selected[i].x][selected[i].y] = PIECE;
+    }
+
+    valid_dfs(selected[0], temp_map);
+    
+    return valid;
+}
+
+int bfs(Pos start, int visited[5]) {
+    int bfs_visited[5][5] = { 0 };
+    front = 0, rear = 0;
+
+    bfs_visited[start.x][start.y] = 1;
+    enqueue(start);
+
+    while (front < rear) {
+        Pos cur = dequeue();
+
+        //printf("check\n");
+        for (int i = 0;i < piece_top;i++) {
+            // TODO maybe
+            //if (cur.x == selected[i].x && cur.y == selected[i].y) {
+            //if(map[cur.x][cur.y] == PIECE && !visited[i]) {
+            if (cur.x == piece[i].x && cur.y == piece[i].y && !visited[i]) {
+                visited[i] = 1;
+                return cur.step;
+            }
+        }
+
+        for (int i = 0;i < 4;i++) {
+            Pos new = { cur.x + dx[i], cur.y + dy[i], cur.step + 1 };
+
+            if (new.x >= 0 && new.x < 5 && new.y >= 0 && new.y < 5 && !bfs_visited[new.x][new.y]) {
+                bfs_visited[new.x][new.y] = 1;
+                enqueue(new);
+            }
+        }
+    }
+
+    return 0;
+}
+int calculate() {
+
+    int sum = 0;
+
+    // 최소의 합은 최소
+    int visited[5] = { 0 };
+    for (int i = 0;i < piece_top;i++) {
+        int distance = bfs(selected[i], visited);
+
+        sum += distance;
+    }
+    return sum;
+}
+void makeCase(int step) {
+    if (step == piece_top) {
+        if (beValid()) {
+            int res = calculate();
+            //printf("res : %d\n", res);
+            if (res < min) {
+                min = res;
+            }
+        }
+        return;
+    }
+
+    // TODO need modify
+    for (int i = 0; i < MAX_MAP; i++) {
+        for (int j = 0; j < MAX_MAP; j++) {
+            bool isDuplicate = false;
+            for (int k = 0; k < step; k++) {
+                if (selected[k].x == i && selected[k].y == j) {
+                    isDuplicate = true;
+                    break;
+                }
+            }
+            if (isDuplicate) continue;
+
+            selected[step] = (Pos){ i,j, 0 };
+            makeCase(step + 1);
+        }
+    }
+}
+int main() {
+    for (int i = 0; i < MAX_MAP; i++) {
+        scanf("%s", map[i]);
+        for (int j = 0; j < MAX_MAP; j++) {
+            if (map[i][j] == PIECE) {
+                piece[piece_top++] = (Pos){ i,j,0 };
+            }
+        }
+    }
+
+    makeCase(0);
+
+    printf("%d\n", min);
+
+    return 0;
+}
+/*
+#1)
+..*..
+.....
+.....
+.....
+*...*
+ans : 6
+
+#2)
+..*..
+.....
+*...*
+.....
+..*..
+ans : 5
+
+
+*/
+
+/*
+void find_valid_positions(int depth, int start) {
+    if (depth == 5) {  // 5개의 '*' 배치 완료
+        int visited[5] = {1};
+        int queue[5] = {}, queue_size = 1;
+        for (int i = 0; i < queue_size; i++) {
+            for (int j = 0; j < 5; j++) {
+                if ((abs(selected_positions[queue[i]] - selected_positions[j]) == 1 && selected_positions[queue[i]] / 5 == selected_positions[j] / 5) ||
+                    (abs(selected_positions[queue[i]] - selected_positions[j]) == 5)) {
+                    if (!visited[j]) {
+                        visited[j] = 1;
+                        queue[queue_size++] = j;
+                    }
+                }
+            }
+        }
+        if (queue_size == 5) calculate_minimum_moves(0);
+        return;
+    }
+    for (int i = start; i < 25; i++) {
+        selected_positions[depth] = i;
+        find_valid_positions(depth + 1, i + 1);
+    }
+}
+
+
+*/
+```
+{% include code_close.html %}
+
 ##
