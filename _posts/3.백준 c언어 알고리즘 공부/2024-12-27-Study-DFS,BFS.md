@@ -3568,7 +3568,7 @@ int main() {
 ```
 {% include code_close.html %}
 
-## 📌 31. 조각 움직이기 : 비효율적이라 개선 필요
+## 📌 31. 조각 움직이기
 [백준 1035번](https://www.acmicpc.net/problem/1035)
 {% include code_open.html title="코드 보기" %}
 ```c
@@ -3665,9 +3665,7 @@ int bfs(Pos start, int visited[5]) {
     while (front < rear) {
         Pos cur = dequeue();
 
-        //printf("check\n");
         for (int i = 0;i < piece_top;i++) {
-            // TODO maybe
             //if (cur.x == selected[i].x && cur.y == selected[i].y) {
             //if(map[cur.x][cur.y] == PIECE && !visited[i]) {
             if (cur.x == piece[i].x && cur.y == piece[i].y && !visited[i]) {
@@ -3689,7 +3687,7 @@ int bfs(Pos start, int visited[5]) {
     return 0;
 }
 int calculate() {
-
+    // 선택한 조각들로부터 처음 위치의 조각까지 거리합 계산
     int sum = 0;
 
     // 최소의 합은 최소
@@ -3703,8 +3701,8 @@ int calculate() {
 }
 void makeCase(int step) {
     if (step == piece_top) {
-        if (beValid()) {
-            int res = calculate();
+        if (beValid()) {    // 하나의 연결인지
+            int res = calculate(); // 각 조각까지 거리합 계산
             //printf("res : %d\n", res);
             if (res < min) {
                 min = res;
@@ -3713,9 +3711,10 @@ void makeCase(int step) {
         return;
     }
 
-    // TODO need modify
+    // TODO can upgrade
     for (int i = 0; i < MAX_MAP; i++) {
         for (int j = 0; j < MAX_MAP; j++) {
+            // 중복 확인
             bool isDuplicate = false;
             for (int k = 0; k < step; k++) {
                 if (selected[k].x == i && selected[k].y == j) {
@@ -3724,7 +3723,7 @@ void makeCase(int step) {
                 }
             }
             if (isDuplicate) continue;
-
+            //
             selected[step] = (Pos){ i,j, 0 };
             makeCase(step + 1);
         }
@@ -3763,37 +3762,45 @@ ans : 6
 ..*..
 ans : 5
 
-
-*/
-
-/*
-void find_valid_positions(int depth, int start) {
-    if (depth == 5) {  // 5개의 '*' 배치 완료
-        int visited[5] = {1};
-        int queue[5] = {}, queue_size = 1;
-        for (int i = 0; i < queue_size; i++) {
-            for (int j = 0; j < 5; j++) {
-                if ((abs(selected_positions[queue[i]] - selected_positions[j]) == 1 && selected_positions[queue[i]] / 5 == selected_positions[j] / 5) ||
-                    (abs(selected_positions[queue[i]] - selected_positions[j]) == 5)) {
-                    if (!visited[j]) {
-                        visited[j] = 1;
-                        queue[queue_size++] = j;
-                    }
-                }
-            }
-        }
-        if (queue_size == 5) calculate_minimum_moves(0);
-        return;
-    }
-    for (int i = start; i < 25; i++) {
-        selected_positions[depth] = i;
-        find_valid_positions(depth + 1, i + 1);
-    }
-}
-
-
+    
 */
 ```
 {% include code_close.html %}
 
-##
+기존 calculate 함수의 방식을 bfs -> 거리 합(abs() 이용)으로 바꿈 : 실행 시간 개선
+{% include code_open.html title="수정 함수 코드 보기" %}
+```c
+int calculate() {
+    // 선택한 조각들로부터 처음 위치의 조각까지 거리합 계산
+    int sum = 0;
+
+    // 최소의 합은 최소
+    int visited[5] = { 0 };
+    for (int i = 0;i < piece_top;i++) {
+        //int distance = bfs(selected[i], visited); // 기존 코드
+        
+        int min = 1000000;  // 충분히 큰 값
+        int prev_idx = -1;
+        for (int j = 0;j < piece_top;j++) {
+            if (visited[j]) continue;
+            int dist = abs(selected[i].x - piece[j].x) + abs(selected[i].y - piece[j].y);
+            if (dist < min) {
+                min = dist;
+                prev_idx = j;
+                //visited[prev_idx] = 0;
+                //visited[j] = 1;
+            }
+        }
+        if (prev_idx != -1) {
+            visited[prev_idx] = 1;
+            sum += min;
+        }
+
+        //sum+= distance; // 기존 코드
+    }
+    return sum;
+}
+```
+{% include code_close.html %}
+
+## 

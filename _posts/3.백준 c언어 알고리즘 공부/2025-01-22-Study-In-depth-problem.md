@@ -1085,4 +1085,126 @@ int main() {
 {% include code_close.html %}
 
 
-## 📌
+## 📌 5. 톱니바퀴
+[백준 14891번](https://www.acmicpc.net/problem/14891)
+{% include code_open.html title="코드 보기" %}
+```c
+#include<stdio.h>
+
+enum Direction {
+	CW = 1,	// clockwise 시계 방향
+	ACW = -1, // anticlockwise 시계 반대 방향
+
+	// 톱니 index
+	RIGHT = 2,
+	LEFT = 6,
+};
+
+void debug(char wheel[9]) {
+	wheel[8] = '\0';
+	printf("-- %s\n", wheel);
+}
+void rotate(char arr[9], int direction) {
+	char temp = 0;
+	if (direction == CW) {
+		temp = arr[7];
+		for (int i = 7;i >= 1;i--) {
+			arr[i] = arr[i - 1];
+		}
+		arr[0] = temp;
+	}
+	else if (direction == ACW) {
+		temp = arr[0];
+		for (int i = 0;i <= 7;i++) {
+			arr[i] = arr[i + 1];
+		}
+		arr[7] = temp;
+	}
+}
+void move(char wheel[4][9], int num, int direction) {
+
+	int rightVal = wheel[num][RIGHT];
+	int leftVal = wheel[num][LEFT];
+	rotate(wheel[num], direction);
+
+	int subDirection = direction;
+	for (int i = num + 1;i < 4;i++) {
+		//printf("%d | %c %c\n", i, rightVal, wheel[i][LEFT]);
+		if (rightVal != wheel[i][LEFT]) {
+			subDirection *= -1;
+			rightVal = wheel[i][RIGHT];	// 돌리기 전에 미리 저장
+			rotate(wheel[i], subDirection);
+		}
+		else break;
+		//printf("%d : %s\n", i, wheel[i]);
+		//debug(wheel[i]);
+	}
+	subDirection = direction;
+	for (int i = num - 1;i >= 0;i--) {
+		if (leftVal != wheel[i][RIGHT]) {
+			subDirection *= -1;
+			leftVal = wheel[i][LEFT];
+			rotate(wheel[i], subDirection);
+		}
+		else break;
+		//printf("%d : %s\n", i, wheel[i]);
+	}
+}
+int main() {
+	char wheel[4][9];
+	for (int i = 0;i < 4;i++) {
+		scanf("%s", wheel[i]);
+	}
+	int K;
+	scanf("%d", &K);
+	int num = 0, direction = 0;
+	for (int i = 0;i < K;i++) {
+		scanf("%d %d", &num, &direction);
+		num -= 1;
+
+		move(wheel, num, direction);
+	}
+
+	// 점수 계산
+	int sum = 0;
+	for (int i = 0;i < 4;i++) {
+		if (wheel[i][0] == '1') {
+			sum += 1 << i;	// 1 2 4 8
+		}
+		//sum += wheel[i][0];
+	}
+	printf("%d\n", sum);
+
+	return 0;
+}
+/*
+N S 같이 반대방향
+S S 회전x
+
+0 1 2 3 4 5 6 7
+v   v       v
+
+#1)
+11011111
+11011111
+00000111
+00000000
+1
+1 1
+
+ans : 7
+---
+
+11011111
+  v   v
+11011111
+  v   v
+00000111
+  v   v
+00000000
+
+*/
+```
+{% include code_close.html %}
+
+##
