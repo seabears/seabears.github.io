@@ -1207,4 +1207,162 @@ ans : 7
 ```
 {% include code_close.html %}
 
+## 📌 6. 감시
+[백준 15683번](https://www.acmicpc.net/problem/15683)
+{% include code_open.html title="코드 보기" %}
+```c
+#include<stdio.h>
+#include<string.h>
+
+#define INF (~(1<<31))
+#define MAX_NM 8
+
+enum Map {
+    EMPTY = 0,
+    WALL = 6,
+
+    //CCTV1 = 1,    // 미사용
+    //CCTV2 = 2,
+    //CCTV3 = 3,
+    //CCTV4 = 4,
+    //CCTV5 = 5,
+
+    EAST = 0,
+    //SOUTH = 1,    // 미사용
+    //WEST = 2,
+    NORTH = 3,
+};
+
+typedef struct {
+    int x;
+    int y;
+    int type;
+}Pos;
+
+int N, M;
+int map[MAX_NM][MAX_NM];
+
+// cctv
+int cctv_cnt = 0;   // 맵 상의 CCTV 수
+Pos cctv_Arr[8];    // 맵 상의 CCTV 좌표
+
+int cctv_avb[6] = { 0,4,2,4,4,1 };  // cctv 타입별 가능한 방향의 수
+int cctv[6][4][4] = {   // {E, S, W, N}
+    {
+        {0} // 0번 없음
+    },
+    {
+        {1,0,0,0}, {0,1,0,0}, {0,0,1,0}, {0,0,0,1}   
+    },
+    {
+        {1,0,1,0}, {0,1,0,1}  
+    },
+    {
+        {1,0,0,1}, {1,1,0,0}, {0,1,1,0}, {0,0,1,1}  
+    },
+    {
+        {1,0,1,1}, {1,1,0,1}, {1,1,1,0}, {0,1,1,1}
+    },
+    {
+        {1,1,1,1}
+    },
+};
+
+int selected_dir[8];    // 선택한 방향
+int min_blind = INF;
+int temp_map[MAX_NM][MAX_NM] = { 0 };
+
+int dx[4] = { 0,1,0,-1 };
+int dy[4] = { 1,0,-1,0 };
+void mark(Pos cur, Pos dxdy) {
+
+    Pos new = { cur.x + dxdy.x, cur.y + dxdy.y };
+    while (new.x >= 0 && new.x < N && new.y >= 0 && new.y < M && temp_map[new.x][new.y] != WALL) {
+        //if (temp_map[new.x][new.y] == EMPTY) {
+        //   temp_map[new.x][new.y] = '#';
+        //}
+        temp_map[new.x][new.y] = '#';   // CCTV가 볼 수 있는 자리 마킹
+        new.x += dxdy.x;
+        new.y += dxdy.y;
+    }
+}
+int calculate() {
+
+    memcpy(temp_map, map, sizeof(temp_map));
+
+    for (int i = 0; i < cctv_cnt; i++) {
+        Pos cur_cctv = cctv_Arr[i];
+        //int type = map[cur_cctv.x][cur_cctv.y]; // 1 ~ 5
+
+        int* rm_dir = cctv[cur_cctv.type][selected_dir[i]]; // {1,0,0,0}와 같은 가장 작은 배열 하나의 시작주소
+
+        //printf("%d : ", i);
+        for (int j = EAST; j <= NORTH; j++) {
+
+            //printf("%d ", rm_dir[i]);
+            //printf("\n");
+
+            if (rm_dir[j] == 1) {
+                Pos dxdy = { dx[j], dy[j] };
+                mark(cctv_Arr[i], dxdy);
+            }
+        }
+    }
+
+    int cnt = 0;
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < M; j++) {
+            if (temp_map[i][j] == EMPTY) {
+                cnt++;
+            }
+        }
+    }
+    return cnt;
+}
+void makeCase(int cctv_idx) {
+    if (cctv_idx == cctv_cnt) {
+        // 거리 계산
+        int cur_blind = calculate();
+        //printf("cur : %d\n", cur_blind);
+        if (cur_blind < min_blind) {
+            min_blind = cur_blind;
+
+            //for (int i = 0;i < cctv_cnt;i++) {
+            //   printf("%d ", selected_dir[i]);
+            //}
+            //printf("\n");
+        }
+
+        return;
+    }
+
+    Pos cur_cctv = cctv_Arr[cctv_idx];
+    //int type = map[cur_cctv.x][cur_cctv.y];
+
+    for (int i = 0; i < cctv_avb[cur_cctv.type]; i++) {   // 방향
+        selected_dir[cctv_idx] = i;
+        makeCase(cctv_idx + 1);
+    }
+
+}
+int main() {
+
+    scanf("%d %d", &N, &M);
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < M; j++) {
+            scanf("%d", &map[i][j]);
+            if (map[i][j] >= 1 && map[i][j] <= 5) {
+                cctv_Arr[cctv_cnt++] = (Pos){ i,j,map[i][j] };
+            }
+        }
+    }
+
+    makeCase(0);
+    printf("%d\n", min_blind);
+
+    return 0;
+}
+```
+{% include code_close.html %}
+
 ##
