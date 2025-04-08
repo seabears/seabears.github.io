@@ -1365,4 +1365,78 @@ int main() {
 ```
 {% include code_close.html %}
 
+## 📌 7. 사다리 조작
+[백준 15684번](https://www.acmicpc.net/problem/15684)
+{% include code_open.html title="코드 보기" %}
+```c
+#include <stdio.h>
+
+#define INF (~(1<<31))
+#define MAX_N 10
+#define MAX_H 30
+
+int N, M, H;
+int map[MAX_H][MAX_N]; // map[height][column]
+int answer = INF;
+
+int is_valid() {
+    for (int start = 0; start < N; start++) {
+        int pos = start;
+        for (int h = 0; h < H; h++) {
+            if (pos < N - 1 && map[h][pos] == 1) {
+                pos++; // 오른쪽으로 이동
+            }
+            else if (pos > 0 && map[h][pos - 1] == 1) {
+                pos--; // 왼쪽으로 이동
+            }
+        }
+        if (pos != start) return 0;
+    }
+    return 1;
+}
+
+void dfs(int count, int x, int y) { 
+    // x : 현재 놓은 가로선
+    // y : 현재 놓은 세로선
+    if (count >= answer) return;
+    if (count > 3) return;
+    if (is_valid()) {
+        answer = count;
+        return;
+    }
+
+    for (int i = x; i < H; i++) {   // 가로 선택
+        for (int j = (i == x ? y : 0); j < N - 1; j++) {    // 세로 선택
+            // j = (i == x ? y : 0)
+            // 이전과 같은 가로선이면 이전 세로선부터
+            // 아니면 첫 세로선부터 선택
+            
+            // 현재, 왼쪽, 오른쪽에 가로선이 없어야 함
+            if (map[i][j] == 0 && map[i][j + 1] == 0 && (j == 0 || map[i][j - 1] == 0)) {
+                map[i][j] = 1;
+                dfs(count + 1, i, j);
+                map[i][j] = 0;
+            }
+        }
+    }
+}
+
+int main() {
+    scanf("%d %d %d", &N, &M, &H);
+
+    for (int i = 0; i < M; i++) {
+        int a, b;
+        scanf("%d %d", &a, &b);
+        map[a - 1][b - 1] = 1; // 1-based to 0-based
+    }
+
+    dfs(0, 0, 0);
+
+    printf("%d\n", answer == INF ? -1 : answer);
+
+    return 0;
+}
+```
+{% include code_close.html %}
+
 ##
