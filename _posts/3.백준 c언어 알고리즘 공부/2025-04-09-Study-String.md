@@ -20,7 +20,7 @@ published: true        # true | false
 ---
 
 
-## 📌 1. 문자열 폭발
+## 📌 1. 문자열 폭발 : 주어진 문자열과 일치하는 문자열을 반복적으로 제거
 [백준 9935번](https://www.acmicpc.net/problem/9935)
 {% include code_open.html title="코드 보기" %}
 ```c
@@ -79,7 +79,7 @@ int main() {
 ```
 {% include code_close.html %}
 
-## 📌 2. 가장 큰 수
+## 📌 2. 가장 큰 수 : 수들을 문자열처럼 붙여서 만들 수 있는 최대수 찾기
 [프로그래머스 가장 큰 수](https://school.programmers.co.kr/learn/courses/30/lessons/42746)
 {% include code_open.html title="코드 보기" %}
 ```c
@@ -114,6 +114,85 @@ char* solution(int numbers[], size_t numbers_len) {
     }
     
     return answer;
+}
+```
+{% include code_close.html %}
+
+## 📌 3. 생태학 : 문자열의 개수 세기
+[백준 4358번](https://www.acmicpc.net/problem/4358)
+{% include code_open.html title="코드 보기" %}
+```c
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
+#define MAX_STR 30
+#define MAX_KIND 10000
+
+typedef struct {
+	char name[MAX_STR + 1];
+	int cnt;
+}Tree;
+
+Tree tree[MAX_KIND + 1];
+int species_cnt = 0;
+int tot_cnt = 0;
+
+int binary_search(char* name) {
+	int left = 0, right = species_cnt - 1;
+	while (left <= right) {
+		int mid = (left + right) / 2;
+
+		int cmp_ret = strcmp(tree[mid].name, name);
+		if (cmp_ret == 0) {
+			return mid;
+		}
+		else if (cmp_ret > 0) {
+			right = mid - 1;
+		}
+		else if (cmp_ret < 0) {
+			left = mid + 1;
+		}
+	}
+	return -1;
+}
+void insert_new(char* name) {
+	// 뒤에서부터 하나씩 뒤로 밀면서 삽입할 자리 찾음
+	int i = species_cnt - 1;
+	while (i >= 0 && strcmp(tree[i].name, name) > 0) {
+		tree[i + 1] = tree[i];
+		i--;
+	}
+	i += 1;
+
+	// 삽입
+	strcpy(tree[i].name, name);
+	tree[i].cnt = 1;
+	species_cnt++;
+}
+int main() {
+	char name[MAX_STR + 1];
+
+	while (fgets(name, sizeof(name), stdin)) {
+		name[strcspn(name, "\n")] = 0;
+		tot_cnt++;
+
+		int idx = binary_search(name);
+
+		if (idx != -1) {	// 찾
+			tree[idx].cnt++;
+		}
+		else {	//못 찾
+			insert_new(name);
+		}
+	}
+
+	for (int i = 0;i < species_cnt;i++) {
+		double percent = (double)tree[i].cnt / tot_cnt * 100;
+		printf("%s %.4f\n", tree[i].name, percent);
+	}
+
+	return 0;
 }
 ```
 {% include code_close.html %}
