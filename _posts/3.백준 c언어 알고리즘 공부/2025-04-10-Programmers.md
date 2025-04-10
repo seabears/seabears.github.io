@@ -114,7 +114,7 @@ int solution(int **rectangle, size_t rectangle_row_len, size_t rectangle_col_len
 ```
 {% include code_close.html %}
 
-좌표가 밀접하게 붙어있어 탐색이 어려울 때,  
+경로의 좌표가 밀접하게 붙어있어 탐색이 어려울 때,  
 모든 좌표를 x2 후, 최단 거리 등을 구하고,
 나중에 /2 하기
 
