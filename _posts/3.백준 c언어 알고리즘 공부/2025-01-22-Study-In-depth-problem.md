@@ -1439,4 +1439,108 @@ int main() {
 ```
 {% include code_close.html %}
 
+## 📌 8. 스타트와 링크 : 간단
+[백준 14889번](https://www.acmicpc.net/problem/14889)
+{% include code_open.html title="코드 보기" %}
+```c
+#include<stdio.h>
+
+#define INF (~(1<<31))
+#define MAX_N 20
+#define MAX(a,b) ((a>b)?a:b)
+#define MIN(a,b) ((a<b)?a:b)
+
+int N;
+int S[MAX_N][MAX_N];
+
+int min_diff = INF;
+
+int selected[MAX_N / 2];
+
+int calculate_diff() {
+	int sum1 = 0;
+	int visited[MAX_N] = { 0 };
+
+	for (int i = 0;i < N / 2;i++) {
+		visited[selected[i]] = 1;
+		for (int j = 0;j < N / 2;j++) {
+			sum1 += S[selected[i]][selected[j]];
+		}
+	}
+
+	int other_team[MAX_N / 2] = { 0 };
+	int idx = 0;
+	for (int i = 0;i < N;i++) {
+		if (!visited[i]) {
+			other_team[idx++] = i;
+		}
+		// 아래는 느림
+		//int already_team = 0;
+		//for (int j = 0;j < N / 2;j++) {
+		//	if (selected[j] == i) {
+		//		already_team = 1;
+		//		break;
+		//	}
+		//}
+		//if (already_team == 0) {
+		//	other_team[idx++] = i;
+		//}
+	}
+
+	int sum2 = 0;
+	for (int i = 0;i < N / 2;i++) {
+		for (int j = 0;j < N / 2;j++) {
+			sum2 += S[other_team[i]][other_team[j]];
+		}
+	}
+
+	return MAX(sum1, sum2) - MIN(sum1, sum2);
+}
+void makeTeam(int step, int start) {
+	if (step == N / 2) {
+		// cal
+		int cur_diff = calculate_diff();
+		if (cur_diff < min_diff) {
+			min_diff = cur_diff;
+		}
+		return;
+	}
+
+	// step과 반복문의 start를 따로 받아서
+	// 중복없이 항상 오름차순으로만 고름
+	for (int i = start;i < N;i++) {
+		selected[step] = i;
+		makeTeam(step + 1, i + 1);	// 다음 사람부터 선택
+		/*
+		0 ~ N
+		1 ~ N
+		2 ~ N
+		...
+		*/
+	}
+}
+int main() {
+
+	scanf("%d", &N);
+	for (int i = 0;i < N;i++) {
+		for (int j = 0;j < N;j++) {
+			scanf("%d", &S[i][j]);
+		}
+	}
+
+	makeTeam(0, 0);
+
+	printf("%d\n", min_diff);
+
+	return 0;
+}
+/*
+축구 N, 짝수
+
+Sij , Sji
+
+*/
+```
+{% include code_close.html %}
+
 ##
