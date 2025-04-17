@@ -262,44 +262,45 @@ c4 + (c1,c2,c3) = 150
 ```c
 #include <stdio.h>
 
-int arr[2001];
-int dp[2001][2001];
+#define MAX_N 2000
 
 int main() {
     int N, M;
     scanf("%d", &N);
-
-    for (int i = 1; i <= N; i++) {
-        scanf("%d", &arr[i]);
+    int num[MAX_N];
+    for (int i = 0;i < N;i++) {
+        scanf("%d", &num[i]);
     }
+    scanf("%d", &M);
 
-    // 길이 1은 항상 팰린드롬
-    for (int i = 1; i <= N; i++) {
+    int dp[MAX_N][MAX_N] = { 0 };   // i부터 j까지 팰린드롬?
+
+    // 길이 1 : 항상 팰린드롬
+    for (int i = 0;i < N;i++) {
         dp[i][i] = 1;
     }
 
-    // 길이 2인 경우
-    for (int i = 1; i <= N - 1; i++) {
-        if (arr[i] == arr[i + 1]) {
+    // 길이 2
+    for (int i = 0;i < N - 1;i++) {
+        if (num[i] == num[i + 1]) {
             dp[i][i + 1] = 1;
         }
     }
 
-    // 길이 3 이상
-    for (int len = 3; len <= N; len++) {
-        for (int i = 1; i <= N - len + 1; i++) {
+    // 길이 3 이상 : 12321, 121 등
+    for (int len = 3; len <= N;len++) {
+        for (int i = 0;i <= N - len;i++) {
             int j = i + len - 1;
-            if (arr[i] == arr[j] && dp[i + 1][j - 1]) {
+            if (num[i] == num[j] && dp[i + 1][j - 1]) {
                 dp[i][j] = 1;
             }
         }
     }
 
-    scanf("%d", &M);
     while (M--) {
-        int S, E;
+        int S = 1, E = 1;
         scanf("%d %d", &S, &E);
-        printf("%d\n", dp[S][E]);
+        printf("%d\n", dp[S - 1][E - 1]);
     }
 
     return 0;
