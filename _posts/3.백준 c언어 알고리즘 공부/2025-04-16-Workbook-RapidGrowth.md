@@ -9,10 +9,10 @@ author: "seabears"      # 작성자
 
 categories: # 카테고리
     - 백준
-    - C언어  
+    - c언어  
 tags: 
     - 백준
-    - C언어
+    - c언어
 
 #excerpt: "이 글의 요약"   # 요약
 #image: "url_to_image.jpg"   # 대표 이미지 (옵션)
