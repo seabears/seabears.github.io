@@ -326,4 +326,223 @@ DP
 ```
 {% include code_close.html %}
 
+### 📌 4. 가스관
+[백준 2931번](https://www.acmicpc.net/problem/2931)
+{% include code_open.html title="코드 보기" %}
+```c
+#include<stdio.h>
+#include<string.h>
+
+#define MAX_MAP 25
+
+enum Map_Info {
+    EMPTY = '.',
+    MOSK = 'M',
+    ZAGR = 'Z',
+};
+enum Dir_Info {
+    DISABLE = -1,
+};
+
+typedef struct {
+    int x;
+    int y;
+    int prev_dir;
+}Pos;
+
+int R, C;
+char map[MAX_MAP][MAX_MAP + 1];
+Pos start, end;
+
+// 동남서북
+// 3
+//2  0
+// 1
+int dx[4] = { 0,1,0,-1 };
+int dy[4] = { 1,0,-1,0 };
+
+// 7종류, 4개의 입구, 출구의 방향 저장
+int pipe_outdir[7][4] = {   // 출구 없는 경우 DISABLE(-1)
+   { DISABLE, 3, DISABLE, 1 },
+   { 2, DISABLE, 0, DISABLE },
+   { 2, 3, 0, 1 },
+   { 1, 0, DISABLE, DISABLE },
+   { 3, DISABLE, DISABLE, 0 },
+   { DISABLE, DISABLE, 3, 2 },
+   { DISABLE, 2, 1, DISABLE }
+};
+
+Pos temp[10];   // 탐색 중 발견한 EMPTY 좌표 저장
+int temp_idx = 0;
+
+int dfs_visited[MAX_MAP][MAX_MAP];
+void dfs(Pos cur, int type) {   
+    // type0 : start->end
+    // type1 : end->start
+
+   //printf("cur %d %d , dir %d\n", cur.x, cur.y, cur.prev_dir);
+    if (map[cur.x][cur.y] == EMPTY) {
+        //printf("empty %d %d , dir %d\n", cur.x, cur.y, cur.prev_dir);
+        temp[temp_idx++] = cur;
+        return;
+    }
+    else if (type == 0 && cur.x == end.x && cur.y == end.y) {
+        return;
+    }
+    else if (type == 1 && cur.x == start.x && cur.y == start.y) {
+        return;
+    }
+    dfs_visited[cur.x][cur.y] = 1;
+
+    for (int i = 0; i < 4; i++) {
+        int new_dir = pipe_outdir[map[cur.x][cur.y]][i];
+        if (new_dir != DISABLE) {
+            Pos new = { cur.x + dx[new_dir], cur.y + dy[new_dir], new_dir };
+            if (new.x >= 0 && new.x < R && new.y >= 0 && new.y < C && !dfs_visited[new.x][new.y]) {
+                dfs(new, type);
+            }
+        }
+    }
+}
+int main() {
+    scanf("%d %d", &R, &C);
+    for (int i = 0; i < R; i++) {
+        scanf("%s", map[i]);
+        for (int j = 0; j < C; j++) {
+            switch (map[i][j]) {
+            case 'M': start = (Pos){ i,j }; map[i][j] = 2; break;
+            case 'Z': end = (Pos){ i,j }; map[i][j] = 2; break;
+            case '|': map[i][j] = 0; break;
+            case '-': map[i][j] = 1; break;
+            case '+': map[i][j] = 2; break;
+            case '1': map[i][j] = 3; break;
+            case '2': map[i][j] = 4; break;
+            case '3': map[i][j] = 5; break;
+            case '4': map[i][j] = 6; break;
+            }
+        }
+    }
+
+    // start -> end 끊어지는곳 찾기
+    dfs(start, 0);
+
+    // end -> start 끊어지는 곳 찾기
+    memset(dfs_visited, 0, sizeof(dfs_visited));
+    dfs(end, 1);
+
+    // 끊어지는 좌표 특정하기
+    Pos ans;
+    for (int i = 0; i < temp_idx; i++) {
+        int be = 0;
+        for (int j = 0; j < temp_idx; j++) {
+            if (j == i) continue;
+            if (temp[i].x == temp[j].x && temp[i].y == temp[j].y) {
+                be = 1;
+                break;
+            }
+        }
+        if (be == 1) {
+            ans = temp[i];
+            //printf("same %d %d , dir %d\n", temp[i].x, temp[i].y, temp[i].prev_dir);
+            break;
+        }
+    }
+
+    // 끊어지는 좌표 주변 파이프의 방향 확인
+    int dir[4] = { 0 };   // 동서남북
+    for (int i = 0; i < 4; i++) {
+        Pos side = { ans.x + dx[i], ans.y + dy[i] };
+        int ch = map[side.x][side.y];
+        if (ch == '.') continue;
+        if (ch == 2) {  // 시작지점이나 끝지점은 패스
+            if (side.x == start.x && side.y == start.y) continue;
+            else if (side.x == end.x && side.y == end.y) continue;
+        }
+
+        if (side.x >= 0 && side.x < R && side.y >= 0 && side.y < C) {
+            //printf("%d\n", ch);
+            switch (i) {
+            case 0:
+                if (ch == 1 || ch == 2 || ch == 5 || ch == 6) {
+                    dir[i] = 1;
+                }
+                break;
+            case 1:
+                if (ch == 0 || ch == 2 || ch == 4 || ch == 5) {
+                    dir[i] = 1;
+                }
+                break;
+            case 2:
+                if (ch == 1 || ch == 2 || ch == 3 || ch == 4) {
+                    dir[i] = 1;
+                }
+                break;
+            case 3:
+                if (ch == 0 || ch == 2 || ch == 3 || ch == 6) {
+                    dir[i] = 1;
+                }
+                break;
+            }
+        }
+    }
+
+    // 방향 환산
+    int sum = 0;
+    for (int i = 0; i < 4; i++) {
+        sum += dir[i] << i;   // 1 2 4 8
+    }
+    /*
+       동서남북
+       1 2 4 8
+
+        8
+       4 1
+        2
+    */
+    //printf("%d\n", sum);
+
+    printf("%d %d ", ans.x + 1, ans.y + 1);
+    switch (sum) {
+    case 10: printf("|\n"); break;
+    case 5: printf("-\n"); break;
+    case 15: printf("+\n"); break;
+    case 3: printf("1\n"); break;
+    case 9: printf("2\n"); break;
+    case 12: printf("3\n"); break;
+    case 6: printf("4\n"); break;
+    default: break;
+    }
+
+    return 0;
+}
+/*
+#1)
+3 5
+..1-M
+1-.4.
+Z.23.
+ans : 2 3 +
+
+#2)
+6 9
+.........
+.M--41Z..
+....2+4..
+.....2+4.
+......2+4
+.......2.
+ans : 6 9 3
+
+#3)
+3 7
+.14....
+.M.Z...
+..23...
+answer: 2 3 |
+
+
+*/
+```
+{% include code_close.html %}
+
 ###
