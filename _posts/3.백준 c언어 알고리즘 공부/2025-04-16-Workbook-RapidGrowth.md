@@ -347,7 +347,6 @@ enum Dir_Info {
 typedef struct {
     int x;
     int y;
-    int prev_dir;
 }Pos;
 
 int R, C;
@@ -397,7 +396,7 @@ void dfs(Pos cur, int type) {
     for (int i = 0; i < 4; i++) {
         int new_dir = pipe_outdir[map[cur.x][cur.y]][i];
         if (new_dir != DISABLE) {
-            Pos new = { cur.x + dx[new_dir], cur.y + dy[new_dir], new_dir };
+            Pos new = { cur.x + dx[new_dir], cur.y + dy[new_dir] };
             if (new.x >= 0 && new.x < R && new.y >= 0 && new.y < C && !dfs_visited[new.x][new.y]) {
                 dfs(new, type);
             }
