@@ -544,4 +544,64 @@ answer: 2 3 |
 ```
 {% include code_close.html %}
 
+### 📌 5. 행렬 곱셈 순서 : DP, 작은 길이부터 안쪽에서 최소비용 찾기
+[백준 11049번](https://www.acmicpc.net/problem/11049)
+{% include code_open.html title="코드 보기" %}
+```c
+#include<stdio.h>
+
+#define INF (~(1<<31))
+#define MAX_N 500
+
+typedef struct {
+	int r;
+	int c;
+}Matrix;
+
+int main() {
+	int N;
+	scanf("%d", &N);
+	Matrix matrix[MAX_N];
+	for (int i = 0; i < N; i++) {
+		scanf("%d %d", &matrix[i].r, &matrix[i].c);
+	}
+	
+	int dp[MAX_N][MAX_N] = { 0 }; // i부터 j까지 더하는 최소
+
+	for (int len = 2; len <= N; len++) {	// i부터 j까지의 길이
+		for (int i = 0; i <= N - len; i++) {	// 가능한 i의 경우의 수
+			int j = i + len - 1;			// 길이와 i를 선택했기에 j는 고정
+			dp[i][j] = INF;
+			for (int k = i; k < j; k++) {	// i~j 사이 중 어디에서 나누는 것이 가장 최소인지 찾음
+				int cost = dp[i][k] + dp[k + 1][j] + matrix[i].r * matrix[k].c * matrix[j].c;
+				if (cost < dp[i][j]) {
+					dp[i][j] = cost;
+				}
+			}
+		}
+	}
+	
+	printf("%d\n", dp[0][N - 1]);
+
+	return 0;
+}
+/*
+#1)
+3
+5 3
+3 2
+2 6
+ans : 90
+
+
+4
+5 3
+3 2
+2 6
+6 5
+
+*/
+```
+{% include code_close.html %}
+
 ###
