@@ -544,7 +544,7 @@ answer: 2 3 |
 ```
 {% include code_close.html %}
 
-### 📌 5. 행렬 곱셈 순서 : DP, 작은 길이부터 안쪽에서 최소비용 찾기
+### 📌 5. 행렬 곱셈 순서 : DP, 작은 길이부터 안쪽에서 최소비용 찾기, (2.파일합치기)와 거의 같은 문제
 [백준 11049번](https://www.acmicpc.net/problem/11049)
 {% include code_open.html title="코드 보기" %}
 ```c
