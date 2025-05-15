@@ -535,7 +535,7 @@ int inputArr[MAX_ANS] = {0};	//입력 배열
 int visited[MAX_ANS] = { 0 };	//입력의 방문 확인 배열
 int ans[MAX_ANS + 1] = { 0 };	//답 출력할 배열
 
-void solve(int step) {
+void solve(int step, int input_index) {
 	if (step == M + 1) {
 		for (int i = 0;i < M;i++) {
 			printf("%d ", ans[i]);
