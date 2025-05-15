@@ -604,5 +604,153 @@ ans : 90
 ```
 {% include code_close.html %}
 
-###
+### 📌 6. 백조의 호수 : BFS*2 + 이진탐색
+[백준 3197번](https://www.acmicpc.net/problem/3197)
+{% include code_open.html title="코드 보기" %}
+```c
+#include<stdio.h>
+#include<string.h>
 
+#define MAX_MAP 1500
+
+enum Map{
+	ICE = 'X',
+	EMPTY = '.',
+	BIRD = 'L',
+};
+
+typedef struct {
+	int x;
+	int y;
+}Pos;
+
+int R, C;
+char map[MAX_MAP][MAX_MAP + 1];
+int ice[MAX_MAP][MAX_MAP];
+
+// dx dy
+int dx[4] = { 0,0,1,-1 };
+int dy[4] = { 1,-1,0,0 };
+
+// bird
+Pos bird[2];
+int bird_idx = 0;
+
+// queue
+Pos queue[MAX_MAP * MAX_MAP];
+int front = 0, rear = 0;
+void enqueue(Pos new) {
+	queue[rear++] = new;
+}
+Pos dequeue() {
+	return queue[front++];
+}
+
+int be_range(Pos cur) {
+	if (cur.x >= 0 && cur.x < R && cur.y >= 0 && cur.y < C) {
+		return 1;
+	}
+	else return 0;
+}
+
+// mark day on ice
+void mark_ice() {
+	while (front < rear) {
+		//printf("%d %d\n", front, rear);
+		Pos cur = dequeue();
+		for (int i = 0; i < 4; i++) {
+			Pos new = { cur.x + dx[i], cur.y + dy[i] };
+			if (!be_range(new) || ice[new.x][new.y] >= 0) continue;
+			if (map[new.x][new.y] == ICE) {
+				ice[new.x][new.y] = ice[cur.x][cur.y] + 1;
+				enqueue(new);
+			}
+			else {
+				ice[new.x][new.y] = ice[cur.x][cur.y];
+				enqueue(new);
+			}
+		}
+	}
+}
+
+// Check birds meet on that day
+int be_meet(int day) {
+	int visited[MAX_MAP][MAX_MAP] = { 0 };
+	front = 0, rear = 0;
+	enqueue(bird[0]);
+	visited[bird[0].x][bird[0].y] = 1;
+
+	while (front < rear) {
+		Pos cur = dequeue();
+
+		if (cur.x == bird[1].x && cur.y == bird[1].y) {
+			return 1;
+		}
+		for (int i = 0; i < 4; i++) {
+			Pos new = { cur.x + dx[i], cur.y + dy[i] };
+			if (!be_range(new) || visited[new.x][new.y] || ice[new.x][new.y] > day) {
+				continue;
+			}
+			enqueue(new);
+			visited[new.x][new.y] = 1;
+
+		}
+	}
+	return 0;
+}
+
+int main() {
+	scanf("%d %d", &R, &C);
+	for (int i = 0; i < R; i++) {
+		scanf("%s", map[i]);
+	
+		for (int j = 0; j < C; j++) {
+			if (map[i][j] != ICE) {
+				enqueue((Pos) { i, j });
+			}
+			else {
+				ice[i][j] = -1;
+			}
+
+			if (map[i][j] == BIRD) {
+				bird[bird_idx++] = (Pos){ i,j };
+			}
+		}
+	}
+	
+	//memset(ice, -1, sizeof(ice));
+	mark_ice();
+
+	//printf("\n");
+	//for (int i = 0; i < R; i++) {
+	//	for (int j = 0; j < C; j++) {
+	//		printf("%d ", ice[i][j]);
+	//	}
+	//	printf("\n");
+	//}
+
+	int start = 0, end = 1500;
+	int mid = 0;
+	int ans = 0;
+	while (start <= end) {	// start = end가 되는 경우 : 검색이 1개 남았을 때
+		mid = (start + end) / 2;
+
+		if (be_meet(mid)) {
+			//printf("%d\n", mid);
+			ans = mid;
+			end = mid - 1;
+			//break;
+		}
+		else {
+			start = mid + 1;
+		}
+	}
+
+	printf("%d\n", ans);
+
+	return 0;
+}
+```
+{% include code_close.html %}
+
+###
