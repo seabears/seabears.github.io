@@ -1543,4 +1543,113 @@ Sij , Sji
 ```
 {% include code_close.html %}
 
+## 📌 9. 주사위 굴리기 : 시뮬레이션
+[백준 14499번](https://www.acmicpc.net/problem/14499)
+{% include code_open.html title="코드 보기" %}
+```c
+#include<stdio.h>
+#include<string.h>
+
+#define MAX_MAP 20
+
+typedef struct {
+	int x;
+	int y;
+	int val[6];
+}Dice;
+
+enum Dir {
+	EAST = 1,
+	WEST = 2,
+	NORTH = 3,
+	SOUTH = 4,
+};
+
+int dx[4] = { 0,0,-1,1 };
+int dy[4] = { 1,-1,0,0 };
+
+int main() {
+	int N, M, K;
+	Dice dice = { 0 };
+	scanf("%d %d %d %d %d", &N, &M, &dice.x, &dice.y, &K);
+	//memcpy(dice.val, (int[]) { 2, 1, 5, 6, 4, 3 }, sizeof(dice.val));
+
+	int map[MAX_MAP][MAX_MAP];
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			scanf("%d", &map[i][j]);
+		}
+	}
+	int cmd = 1;
+	for (int i = 0; i < K; i++) {
+		scanf("%d", &cmd);
+		
+		dice.x += dx[cmd - 1];
+		dice.y += dy[cmd - 1];
+
+		if (!(dice.x >= 0 && dice.x < N && dice.y >= 0 && dice.y < M)) {
+			dice.x -= dx[cmd - 1];
+			dice.y -= dy[cmd - 1];
+			continue;
+		}
+
+		int temp[6] = { 0 };
+		memcpy(temp, dice.val, sizeof(temp));
+		switch (cmd) {
+		/*
+		  0
+		4 1 5
+		  2
+		  3
+
+		*/
+		case EAST:
+			dice.val[4] = temp[3];
+			dice.val[1] = temp[4];
+			dice.val[5] = temp[1];
+			dice.val[3] = temp[5];
+			break;
+		case WEST:
+			dice.val[4] = temp[1];
+			dice.val[1] = temp[5];
+			dice.val[5] = temp[3];
+			dice.val[3] = temp[4];
+			break;
+		case NORTH:
+			dice.val[0] = temp[1];
+			dice.val[1] = temp[2];
+			dice.val[2] = temp[3];
+			dice.val[3] = temp[0];
+			break;
+		case SOUTH:
+			dice.val[0] = temp[3];
+			dice.val[1] = temp[0];
+			dice.val[2] = temp[1];
+			dice.val[3] = temp[2];
+			break;
+
+		}
+
+		if (map[dice.x][dice.y] == 0) {
+			map[dice.x][dice.y] = dice.val[3];
+		}
+		else {
+			dice.val[3] = map[dice.x][dice.y];
+			map[dice.x][dice.y] = 0;
+		}
+
+		printf("%d\n", dice.val[1]);
+	}
+
+	return 0;
+}
+
+/*
+이동칸에 쓰여있는 수가 0이면 주사위 바닥면이 칸에 복사
+아니라면 칸이 주사위에 복사, 칸은 0
+
+*/
+```
+{% include code_close.html %}
+
 ##
