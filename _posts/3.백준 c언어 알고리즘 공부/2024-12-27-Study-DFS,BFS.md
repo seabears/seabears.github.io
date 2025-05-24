@@ -5,12 +5,17 @@ description: >-           #한 문장으로 나옴
 date: 2024-12-27 17:39:46 +0900
 lastmod : 2025-02-06 12:23:00 +0900  #마지막 수정 시간
 
-author: "seabears"      # 작성자
+#author: "seabears"      # 작성자
+author:
+  name: seabears
+  url: https://github.com/seabears
 
 categories: # 카테고리
     - 백준 c언어 정리
 tags: 
     - Untag1
+
+image: /assets/dfsbfs.png
 
 sitemap :
   changefreq : daily
