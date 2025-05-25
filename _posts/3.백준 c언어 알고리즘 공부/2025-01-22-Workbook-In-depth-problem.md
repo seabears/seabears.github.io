@@ -1652,4 +1652,120 @@ int main() {
 ```
 {% include code_close.html %}
 
+## 📌 10. 인구 이동 : BFS
+[백준 16234번](https://www.acmicpc.net/problem/16234)
+{% include code_open.html title="코드 보기" %}
+```c
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_N 50
+#define MAX(a,b) ((a>b)?(a):(b))
+#define MIN(a,b) ((a<b)?(a):(b))
+
+typedef struct {
+	int x;
+	int y;
+}Pos;
+
+int dx[4] = { 0,0,1,-1 };
+int dy[4] = { 1,-1,0,0 };
+
+Pos queue[MAX_N * MAX_N];
+int front = 0, rear = 0;
+void enqueue(Pos new) {
+	queue[rear++] = new;
+}
+Pos dequeue() {
+	return queue[front++];
+}
+
+Pos stack[MAX_N * MAX_N];
+int stack_i = 0;
+
+int main() {
+	int N, L, R;
+	scanf("%d %d %d", &N, &L, &R);
+
+	int A[50][50];
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			scanf("%d", &A[i][j]);
+		}
+	}
+
+	int day = 0;
+	int visited[MAX_N][MAX_N] = { 0 };
+	int sum = 0;
+	int beUnion = 1;	// 해당 날에 국경선을 열었는지
+
+	while (++day && beUnion) {
+		// 1. 국경선을 열 것인지 확인
+		beUnion = 0;
+		memset(visited, 0, sizeof(visited));
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				if (visited[i][j]) continue;
+				front = 0, rear = 0;
+				Pos start = { i,j };
+				enqueue(start);
+				visited[start.x][start.y] = 1;
+				stack_i = 0;
+				sum = 0;
+
+				while (front < rear) {
+					Pos cur = dequeue();
+					stack[stack_i++] = cur;
+					sum += A[cur.x][cur.y];
+
+					for (int d = 0; d < 4; d++) {
+						Pos new = { cur.x + dx[d], cur.y + dy[d] };
+						if (new.x >= 0 && new.x < N && new.y >= 0 && new.y < N && !visited[new.x][new.y]) {
+							int diff = MAX(A[cur.x][cur.y], A[new.x][new.y]) - MIN(A[cur.x][cur.y], A[new.x][new.y]);
+							if (diff >= L && diff <= R) {
+								beUnion = 1;
+								enqueue(new);
+								visited[new.x][new.y] = 1;
+							}
+						}
+					}
+				}
+			
+				// 2. 국경선을 열어 인구 이동
+				for (int idx = 0; idx < stack_i; idx++) {
+					Pos cur = stack[idx];
+					A[cur.x][cur.y] = sum / (stack_i);
+					//printf("%d %d, A : %d\n", cur.x, cur.y, A[cur.x][cur.y]);
+					//printf("%d %d\n", sum, stack_i);
+				}
+
+			}
+
+		}
+		//for (int i = 0; i < N; i++) {
+		//	for (int j = 0; j < N; j++) {
+		//		printf("%d ", A[i][j]);
+		//	}
+		//	printf("\n");
+		//}
+		//printf("\n");
+
+		//printf("day\n");
+
+	}
+	printf("%d\n", day - 2);
+
+	return 0;
+}
+/*
+NxN 땅, 정사각형 형태
+
+*/
+```
+{% include code_close.html %}
+
+문제를 잘 읽고, 사람의 관점에서 어떻게 동작시키고 있는지 확인하고,
+동작 하나하나를 구현  
+특히, 연합이 끝나는 시점은 A[i][j]를 확인해봤을 때, `인구 이동이 없을 때` 이다.
+
 ##
