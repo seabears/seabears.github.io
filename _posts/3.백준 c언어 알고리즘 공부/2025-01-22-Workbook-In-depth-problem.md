@@ -1986,4 +1986,162 @@ K년이 지난 후 땅에 살아있는 나무의 개수
 년수가 1000년까지 가능하므로 1x1 칸에 나무가 최대 1000개까지 있을 수 있음.  
 문제의 조건 범위를 잘 확인하기  
 
-##
+## 📌 12. 아기 상어 : BFS
+[백준 16236번](https://www.acmicpc.net/problem/16236)
+{% include code_open.html title="코드 보기" %}
+```c
+#include<stdio.h>
+#include<stdbool.h>
+
+#define INF (~(1<<31))
+#define MAX_N 20
+
+typedef struct {
+	int x;
+	int y;
+	int size;
+	int step;
+}Pos;
+
+int N;
+int map[MAX_N][MAX_N];
+
+Pos baby;
+
+const int dx[4] = { -1,0,1,0 };
+const int dy[4] = { 0,-1,0,1 };
+
+void debug() {
+
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			if (i == baby.x && j == baby.y) {
+				printf("$ ");
+			}
+			else {
+				printf("%d ", map[i][j]);
+			}
+		}
+		printf("\n");
+	}
+	printf("===============================\n\n");
+}
+Pos find() {
+	Pos queue[10000];
+	int front = 0, rear = 0;
+	bool visited[MAX_N][MAX_N] = { 0 };
+
+	queue[rear++] = baby;
+	visited[baby.x][baby.y] = 1;
+
+	Pos target = { 0,0,0,INF };
+	while (front < rear) {
+		Pos cur = queue[front++];
+
+		if (cur.step > target.step) continue;
+		if (map[cur.x][cur.y] != 0 && baby.size > map[cur.x][cur.y]) {
+			if (cur.step < target.step) {
+				target = cur;
+			}
+			if (cur.step == target.step) {
+				if (cur.x < target.x) {
+					target = cur;
+				}
+				else if (cur.x == target.x) {
+					if (cur.y < target.y) {
+						target = cur;
+					}
+				}
+			}
+
+			continue;
+			//return target; // cur;
+		}
+		
+		for (int i = 0; i < 4; i++) {
+			Pos new = { cur.x + dx[i], cur.y + dy[i], cur.size, cur.step + 1 };
+
+			if (new.x >= 0 && new.x < N && new.y >= 0 && new.y < N) {
+				if (visited[new.x][new.y] == 1) continue;
+				if (baby.size < map[new.x][new.y]) continue;
+
+				visited[new.x][new.y] = 1;
+				queue[rear++] = new;
+			}
+		}
+	}
+	return target;
+}
+int move() {
+	int time = 0;
+	int eat = 0;
+	while (1) {
+		// 1. 탐색
+		Pos target = find();
+		if (target.step == INF) return time;
+		//printf("target : [%d] %d %d | 거리 %d\n", map[target.x][target.y], target.x, target.y, target.step);
+		time += target.step;
+
+		// 2. 이동
+		baby.x = target.x;
+		baby.y = target.y;
+		eat += 1;
+		if (eat == baby.size) {
+			eat = 0;
+			baby.size += 1;
+		}
+		map[baby.x][baby.y] = 0;
+		
+		//printf("size %d | eat %d\n", baby.size, eat);
+		//debug();
+	}
+}
+int main() {
+
+	scanf("%d", &N);
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			scanf("%d", &map[i][j]);
+
+			if (map[i][j] == 9) {
+				baby = (Pos){ i,j,2,0 };
+				map[i][j] = 0;
+			}
+		}
+	}
+
+	int res = move();
+
+	printf("%d\n", res);
+
+	return 0;
+}
+/*
+공간 NxN
+물고기 M
+아기 상어 1
+
+칸당 물고기 최대 1
+
+아기 상어 크기 2로 시작
+1초에 상하좌우 한칸 이동
+자기보다 큰 물고기칸 이동 못함
+
+작은 물고기는 먹을 수 있음
+
+같은 물고기는 이동만 가능
+
+
+더이상 없으면 엄마상어에게 도움
+거리가 가까운 물고기 먹으러 감
+가장 위, 왼쪽이 우선
+
+크기만큼 물고기 수 먹으면 크기 1 증가
+
+요청 전 몇초동안??
+
+*/
+```
+{% include code_close.html %}
+
+## 
