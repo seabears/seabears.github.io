@@ -753,4 +753,102 @@ int main() {
 ```
 {% include code_close.html %}
 
+### 📌 7. 교환 : BFS
+[백준 1039번](https://www.acmicpc.net/problem/1039)
+{% include code_open.html title="코드 보기" %}
+```c
+#include<stdio.h>
+#include<string.h>
+#include<stdbool.h>
+
+
+char N[8];
+int K;
+int len;
+
+char queue[10000][8];
+int front = 0, rear = 0;
+void enqueue(char* newStr) {
+	strcpy(queue[rear++], newStr);
+}
+char* dequeue() {
+	return queue[front++];
+}
+
+int bfs() {
+	bool visited[11][1000001] = { 0 };
+
+	visited[0][atoi(N)] = 1;
+	enqueue(N);
+
+	int level = 0;
+	while (level < K) {
+		int size = rear - front;
+		for (int s = 0;s < size;s++) {
+			char* curStr = dequeue();
+
+			for (int i = 0;i < len - 1;i++) {
+				for (int j = i + 1;j < len;j++) {
+
+					char newStr[8];
+					strcpy(newStr, curStr);
+					if (i == 0 && newStr[j] == '0') continue;
+
+					char temp = newStr[i];
+					newStr[i] = newStr[j];
+					newStr[j] = temp;
+					
+					if (visited[level + 1][atoi(newStr)] == 1) continue;
+					enqueue(newStr);
+					visited[level + 1][atoi(newStr)] = 1;
+
+					// 아래처럼 직접 바꾸면 큐 안의 값도 같이 바뀜
+					//if (i == 0 && curStr[j] == '0') continue;
+
+					//char temp = curStr[i];
+					//curStr[i] = curStr[j];
+					//curStr[j] = temp;
+					//
+					//if (visited[level + 1][atoi(curStr)] == 1) continue;
+					//enqueue(curStr);
+					//visited[level + 1][atoi(curStr)] = 1;
+
+					//curStr[j] = curStr[i];
+					//curStr[i] = temp;
+				}
+			}
+		}
+		level++;
+	}
+
+	int max = -1;
+	while (front < rear) {
+		int lastVal = atoi(dequeue());
+		if (lastVal > max) max = lastVal;
+	}
+
+	return max;
+}
+
+int main() {
+
+	scanf("%s %d", N, &K);
+	len = strlen(N);
+
+	if (len == 1 || (len == 2 && N[1] == 0)) {
+		printf("-1\n");
+		return 0;
+	}
+	int res = bfs();
+	printf("%d\n", res);
+	
+	return 0;
+}
+```
+{% include code_close.html %}
+
+각 레벨(현재까지 몇번 교환했는지)마다 큐에 삽입 후, 해당 크기 만큼(size = rear - front)만 새로운 교환 실행  
+
+마지막 단계 이전까지만 교환 후(level < K), 마지막 단계(level == K)는 최대값(max)만 찾음  
+
 ###
